@@ -12,7 +12,7 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 cooldown = 0
-cooldown_time = .1
+cooldown_time = .18
 
 ship_c_sprite = c_components.Sprite("sprites/ship.png")
 ship = e_entity.Ship()
