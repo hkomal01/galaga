@@ -21,11 +21,7 @@ class Input_State:
         self.rightk = rightk
         self.shootk = shootk
         self.quitk = quitk
-        self.left = self.value[leftk]
-        self.right = self.value[rightk]
-        self.quit = self.value[quitk]
-        self.escape = False
-        self.shoot = self.value[shootk]
+        self.update(self)
 
     def update(self):
         self.value = pygame.key.get_pressed()
