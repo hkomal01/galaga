@@ -53,7 +53,7 @@ while running:
     screen.blit(ship.sprite[0].image, ship.sprite[0].rect)
 
     for pos in bullets:
-        pygame.draw.rect(screen, "red", pygame.Rect(pos.x, pos.y, 5, 20))
+        pygame.draw.rect(screen, "red", pygame.Rect(pos.x, pos.y, 5, 15))
         pos.y -= 25
         # Remove bullets that are off-screen
         if pos.y < -20:
