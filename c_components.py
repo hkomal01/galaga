@@ -1,5 +1,5 @@
 import pygame
-
+import game
 class Health:
     def __init__(self, initHealth):
         self.health = initHealth
@@ -21,7 +21,10 @@ class Input_State:
         self.rightk = rightk
         self.shootk = shootk
         self.quitk = quitk
-        self.update(self)
+        self.player_pos = pygame.Vector2(game.WIDTH / 2, (game.HEIGHT / 6) *5)
+        self.cooldown = 0
+        self.cooldown_time = .18
+        self.update()
 
     def update(self):
         self.value = pygame.key.get_pressed()
@@ -32,12 +35,16 @@ class Input_State:
         self.shoot = self.value[self.shootk]
 
 class Movement:
-    def __init__(self, x, y, speed):
+    def __init__(self, x, y, velocity):
         self.x = x
         self.y = y
-        self.speed = speed
+        self.velocity = velocity
 
 class Explosion:
     def __init__(self, image):
         self.image = image
-        self.isDead = False
+        self.is_dead = False
+
+class Bullets:
+    def __init__(self):
+        self.bullets = []
