@@ -26,6 +26,7 @@ if __name__ == "__main__":
     ship_entity = e_entity.Ship(SHIPBASEHEALTH, SHIP_SPRITE, KEYS, EXPLOSION)
     ship_system = s_shipMovement.ShipMovement()
     rendering_system = s_renderingSystem.RenderingSystem()
+    
     while running:
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window

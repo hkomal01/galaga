@@ -5,6 +5,16 @@ import copy
 
 class ShipMovement:
     def moveShipsAndBullets(self, dt, InputState, Bullets):
+        
+        #Bullet Movement & deletion
+        for pos in Bullets.bullets:
+            pos.y -= 25
+            # Remove bullets that are off-screen
+            if pos.y < -20:
+                Bullets.bullets.remove(pos)
+        
+        
+        #Ship Movement
         player_pos = InputState.player_pos
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
