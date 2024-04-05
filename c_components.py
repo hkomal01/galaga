@@ -3,13 +3,14 @@ import game
 class Health:
     def __init__(self, initHealth):
         self.health = initHealth
-        
 
 class Sprite:
     def __init__(self, image):
         self.image = pygame.image.load(image).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (self.image.get_width() * 3, self.image.get_height()*3))
-        self.rect = self.image.get_rect() #Retangular properties of the image
+        self.image = pygame.transform.scale(self.image, 
+                                            (self.image.get_width() 
+                                             * 3, self.image.get_height()*3))
+        self.rect = self.image.get_rect() # Retangular properties of the image
 
     def update(self, pos):
         self.rect.center = pos
@@ -21,7 +22,6 @@ class Input_State:
         self.rightk = rightk
         self.shootk = shootk
         self.quitk = quitk
-        self.player_pos = pygame.Vector2(game.WIDTH / 2, (game.HEIGHT / 6) *5)
         self.cooldown = 0
         self.cooldown_time = .18
         self.update()
@@ -35,10 +35,10 @@ class Input_State:
         self.shoot = self.value[self.shootk]
 
 class Movement:
-    def __init__(self, x, y, velocity):
-        self.x = x
-        self.y = y
-        self.velocity = velocity
+    def __init__(self, x, y, vx, vy):
+        self.position = pygame.Vector2(x, y)
+        self.vx = vx
+        self.vy = vy
 
 class Explosion:
     def __init__(self, image):
@@ -46,5 +46,8 @@ class Explosion:
         self.is_dead = False
 
 class Bullets:
+    # each elt of bullets is a vector of two
+    # bullet.x = x-component
+    # bullet.y = y-component
     def __init__(self):
         self.bullets = []
