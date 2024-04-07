@@ -16,12 +16,13 @@ class Sprite:
         self.rect.center = pos
 
 class Input_State:
-    def __init__(self, leftk, rightk, shootk, quitk):
+    def __init__(self, leftk, rightk, shootk, quitk, pausek):
         self.value = pygame.key.get_pressed()
         self.leftk = leftk
         self.rightk = rightk
         self.shootk = shootk
         self.quitk = quitk
+        self.pausek = pausek
         self.cooldown = 0
         self.cooldown_time = .18
         self.update()
@@ -31,7 +32,7 @@ class Input_State:
         self.left = self.value[self.leftk]
         self.right = self.value[self.rightk]
         self.quit = self.value[self.quitk]
-        self.escape = False
+        self.pause = self.value[self.pausek]
         self.shoot = self.value[self.shootk]
 
 class Movement:

@@ -7,12 +7,13 @@ import s_shipMovement
 import s_alienMovement
 import s_renderingSystem
 import s_collisionDetection
+import time
 
 WIDTH = 1024
 HEIGHT = 768
 SHIPBASEHEALTH = 3
 SHIP_SPRITE = "sprites/ship.png"
-KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE]
+KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE, pygame.K_p]
 EXPLOSION = "sprites/explosion.png"
 MOVEMENT = [WIDTH / 2, (HEIGHT / 6) *5, 300, 0]
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -31,23 +32,24 @@ if __name__ == "__main__":
     aliens_entities.add_alien(1, "sprites/enemy1.png", (WIDTH/2, HEIGHT/2, 0, 0), EXPLOSION)
     aliens_entities.add_alien(1, "sprites/enemy2.png", (WIDTH/3, HEIGHT/2, 0, 0), EXPLOSION)
     aliens_entities.add_alien(1, "sprites/enemy3.png", (2*WIDTH/3, HEIGHT/2, 0, 0), EXPLOSION)
-    aliens_entities.add_alien(1, "sprites/enemy1.png", (WIDTH/4, HEIGHT/2, -300, -150), EXPLOSION)
+    aliens_entities.add_alien(1, "sprites/enemy1.png", (WIDTH/4, HEIGHT/2, 1, -1), EXPLOSION)
+    aliens_entities.add_alien(1, "sprites/enemy2.png", (3*WIDTH/4, HEIGHT/2, -1, 1), EXPLOSION)
     ship_system = s_shipMovement.ShipMovement()
     aliens_system = s_alienMovement.AlienMovement()
     rendering_system = s_renderingSystem.RenderingSystem()
     collision_system = s_collisionDetection.CollisionSystem()
     
     
-    while running:
+    while running and not ship_entity.input_state[0].quit:
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
+       
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or ship_entity.input_state[0].quit:
+            if event.type == pygame.QUIT:
                 running = False
 
         # fill the screen with a color to wipe away anything from last frame
         SCREEN.fill("black")
-
         ship_system.moveShipsAndBullets(dt, ship_entity.input_state[0], 
                                         ship_entity.bullets[0], ship_entity.movement[0])
         aliens_system.moveAliensAndBullets(dt, aliens_entities)
@@ -60,7 +62,7 @@ if __name__ == "__main__":
         
         # flip() the display to put your work on screen
         pygame.display.flip()
-
+            
         # limits FPS to 60
         # dt is delta time in seconds since last frame, used for framerate-
         # independent physics.
