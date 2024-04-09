@@ -41,11 +41,6 @@ class Movement:
         self.vx = vx
         self.vy = vy
 
-class Explosion:
-    def __init__(self, image):
-        self.image = image
-        self.is_dead = False
-
 class Bullets:
     # each elt of bullets is a vector of two
     # bullet.x = x-component

@@ -15,7 +15,6 @@ HEIGHT = 768
 SHIPBASEHEALTH = 3
 SHIP_SPRITE = "sprites/ship.png"
 KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE, pygame.K_p]
-EXPLOSION = "sprites/explosion.png"
 MOVEMENT = [WIDTH / 2, (HEIGHT / 6) *5, 300, 0]
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
@@ -30,13 +29,13 @@ if __name__ == "__main__":
     # self, hp, sprite, inputs, explosion):
     
     #ENTITIES
-    ship_entity = e_entity.Ship(SHIPBASEHEALTH, SHIP_SPRITE, KEYS, EXPLOSION, MOVEMENT)
+    ship_entity = e_entity.Ship(SHIPBASEHEALTH, SHIP_SPRITE, KEYS, MOVEMENT)
     aliens_entities = e_entity.Alien()
-    aliens_entities.add_alien(1, "sprites/enemy1.png", (WIDTH/2, HEIGHT/2, 0, 0), EXPLOSION)
-    aliens_entities.add_alien(1, "sprites/enemy2.png", (WIDTH/3, HEIGHT/2, 0, 0), EXPLOSION)
-    aliens_entities.add_alien(1, "sprites/enemy3.png", (2*WIDTH/3, HEIGHT/2, 0, 0), EXPLOSION)
-    aliens_entities.add_alien(1, "sprites/enemy1.png", (WIDTH/4, HEIGHT/2, 25, -5), EXPLOSION)
-    aliens_entities.add_alien(1, "sprites/enemy2.png", (3*WIDTH/4, HEIGHT/2, -1, 1), EXPLOSION)
+    aliens_entities.add_alien(1, "sprites/enemy1.png", (WIDTH/2, HEIGHT/2, 0, 0))
+    aliens_entities.add_alien(1, "sprites/enemy2.png", (WIDTH/3, HEIGHT/2, 0, 0))
+    aliens_entities.add_alien(1, "sprites/enemy3.png", (2*WIDTH/3, HEIGHT/2, 0, 0))
+    aliens_entities.add_alien(1, "sprites/enemy1.png", (WIDTH/4, HEIGHT/2, 25, -5))
+    aliens_entities.add_alien(1, "sprites/enemy2.png", (3*WIDTH/4, HEIGHT/2, -1, 1))
     explosion_entities = e_entity.Explosion()
     
     #SYSTEMS
@@ -70,7 +69,7 @@ if __name__ == "__main__":
         
         #SYSTEM
         #COLLISION (Alien)
-        collision_system.checkAlienCollision(aliens_entities.health, aliens_entities.explosion, aliens_entities.sprite, ship_entity.bullets[0], aliens_entities, explosion_entities)
+        collision_system.checkAlienCollision(aliens_entities.health, aliens_entities.sprite, ship_entity.bullets[0], aliens_entities, explosion_entities)
         
         #SYSTEM
         #RENDERING

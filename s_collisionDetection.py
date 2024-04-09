@@ -13,7 +13,7 @@ import pygame
 # array of alien sprites
 # explision comps
 class CollisionSystem:
-    def checkAlienCollision(self, alienHealth, alienExplosion, alienSprite, bulletsFromShip, alien_entity, explosion_entity): 
+    def checkAlienCollision(self, alienHealth, alienSprite, bulletsFromShip, alien_entity, explosion_entity): 
         markDeathAlien = []
         deleteBullets = [] # ?
         # bullet hits alien
@@ -24,8 +24,7 @@ class CollisionSystem:
         # delete aliens
         
         for m, bullet in enumerate(bulletsFromShip.bullets):
-            for i, (alien, health, explosion) in enumerate(zip(alienSprite, alienHealth, 
-                                                                alienExplosion)):
+            for i, (alien, health) in enumerate(zip(alienSprite, alienHealth)):
                 bullet_rect = pygame.Rect(bullet.x, bullet.y, 5, 15)
                 # make explosion for the alien to be true or just decrease 
                 # the health to 0? I'm just going to do both for now and it 
@@ -36,12 +35,10 @@ class CollisionSystem:
                     deleteBullets.append(m)
                     if health.health == 0:
                         markDeathAlien.append(i)
-                        explosion.is_dead = True
                     break
         #  self.health = []
         # self.sprite = []
         # self.movement = []
-        # self.explosion = []
         # self.bullets =[]
 
         # yo rn the bullets never get deleted; column mismatch
@@ -51,7 +48,6 @@ class CollisionSystem:
             del alien_entity.health[i]
             del alien_entity.sprite[i]
             del alien_entity.movement[i]
-            del alien_entity.explosion[i]
             alien_entity.num -= 1
             
         for p in deleteBullets[::-1]:
