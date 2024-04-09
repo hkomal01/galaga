@@ -13,7 +13,7 @@ import pygame
 # array of alien sprites
 # explision comps
 class CollisionSystem:
-    def checkAlienCollision(self, alienHealth, alienExplosion, alienSprite, bulletsFromShip, alien_entity): 
+    def checkAlienCollision(self, alienHealth, alienExplosion, alienSprite, bulletsFromShip, alien_entity, explosion_entity): 
         markDeathAlien = []
         deleteBullets = [] # ?
         # bullet hits alien
@@ -43,7 +43,11 @@ class CollisionSystem:
         # self.movement = []
         # self.explosion = []
         # self.bullets =[]
+
+        # yo rn the bullets never get deleted; column mismatch
         for i in markDeathAlien[::-1]:
+            movement = alien_entity.movement[i]
+            explosion_entity.add_explosion((movement.position.x, movement.position.y, 0, 0))
             del alien_entity.health[i]
             del alien_entity.sprite[i]
             del alien_entity.movement[i]
