@@ -21,7 +21,7 @@ class Alien:
     def add_alien(self, health, sprite, movement, explosion):
         self.health.append(comp.Health(health))
         self.sprite.append(comp.Sprite(sprite))
-        self.movement.append(comp.Movement(movement[0], movement[1], movement[2], movement[3]))
+        self.movement.append(comp.Movement(movement[0], movement[1], movement[2], movement[3], movement[4]))
         self.explosion.append(comp.Explosion(explosion))
         self.bullets.append(comp.Bullets())
         self.num += 1
