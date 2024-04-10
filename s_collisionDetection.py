@@ -34,6 +34,11 @@ class CollisionSystem:
             del shipBullet_entity.movement[p]
 
     def checkShipCollision(self, alienBullet_entity, explosion_entity, ship_entity):
+        
+        #Ship dead
+        if (ship_entity.health[0].health <= 0):
+            return
+        
         deleteAlienBullets = []
         
         for m, bullet in enumerate(alienBullet_entity.movement):
@@ -46,7 +51,6 @@ class CollisionSystem:
                     if ship_entity.health[0].health == 0:
                         explosion_entity.add_explosion((ship_entity.movement[0].position.x, 
                                                         ship_entity.movement[0].position.y, 0, 0))
-                        ship_entity.sprite.
                     break
         
         for b in deleteAlienBullets[::-1]:

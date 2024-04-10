@@ -4,9 +4,12 @@ import game
 import copy
 
 class ShipMovement:
-    def moveShip(self, dt, ship_entity, shipBullet_entity):
-        
-        #Ship Movement
+    def moveShip(self, dt, ship_entity, shipBullet_entity):      
+        #Ship dead
+        if (ship_entity.health[0].health <= 0):
+            ship_entity.input_state[0].update()
+            return
+    
         player_pos = ship_entity.movement[0].position
         if ship_entity.input_state[0].left:
             player_pos.x -= ship_entity.movement[0].vx * dt
