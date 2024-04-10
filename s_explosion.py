@@ -8,5 +8,4 @@ class ExplosionSystem:
             if (explosion_entity.animIndex[i] == 7):
                 del explosion_entity.movement[i]
                 del explosion_entity.animIndex[i]
-                del explosion_entity.bullets[i]
                 explosion_entity.num -= 1

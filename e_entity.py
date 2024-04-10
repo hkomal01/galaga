@@ -7,7 +7,6 @@ class Ship:
             self.sprite = [comp.Sprite(sprite)]
             self.input_state = [comp.Input_State(inputs[0], inputs[1], 
                                                  inputs[2], inputs[3], inputs[4])]
-            self.bullets = [comp.Bullets()]
             self.movement = [comp.Movement(movement[0], movement[1], 
                                            movement[2], movement[3])]
 class Alien:
@@ -15,7 +14,6 @@ class Alien:
         self.health = []
         self.sprite = []
         self.movement = []
-        self.bullets =[]
         self.num = 0
         
     def add_alien(self, health, sprite, movement):
@@ -23,14 +21,12 @@ class Alien:
         self.sprite.append(comp.Sprite(sprite))
         self.movement.append(comp.Movement(movement[0], movement[1], 
                                            movement[2], movement[3]))
-        self.bullets.append(comp.Bullets())
         self.num += 1
 
 class Explosion:
     def __init__(self):
         self.movement = []
         self.animIndex = []
-        self.bullets = []
         self.sprites = \
             [comp.Sprite("sprites/explosion0.png"),
             comp.Sprite("sprites/explosion1.png"),
@@ -45,7 +41,19 @@ class Explosion:
         self.movement.append(comp.Movement(movement[0], movement[1], 
                                            movement[2], movement[3]))
         self.animIndex.append(0)
-        self.bullets.append(comp.Bullets())
         self.num += 1
 
-    
+class ShipBullet:
+    def __init__(self):
+        self.movement = []
+        
+    def add_shipBullet(self, movement):
+        self.movement.append(comp.Movement(movement[0], movement[1], 
+                                           movement[2], movement[3]))
+
+class AlienBullet:
+    def __init__(self):
+        self.movement = []
+    def add_alienBullet(self, movement):
+        self.movement.append(comp.Movement(movement[0], movement[1], 
+                                           movement[2], movement[3]))

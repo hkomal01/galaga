@@ -4,14 +4,14 @@ import game
 import copy
 
 class ShipMovement:
-    def moveShipsAndBullets(self, dt, InputState, Bullets, Movement):
+    def moveShipsAndBullets(self, dt, InputState, shipBullet_entity, Movement):
         
         #Bullet Movement & deletion
-        for pos in Bullets.bullets:
-            pos.y -= 25
+        for mov in shipBullet_entity.movement:
+            mov.position.y += mov.vy * dt
             # Remove bullets that are off-screen
-            if pos.y < -20:
-                Bullets.bullets.remove(pos)
+            if mov.position.y < -20:
+                shipBullet_entity.movement.remove(mov)
 
         #Ship Movement
         player_pos = Movement.position
@@ -24,7 +24,7 @@ class ShipMovement:
             if player_pos.x > (game.WIDTH - 40):
                 player_pos.x = game.WIDTH - 40
         if InputState.shoot and InputState.cooldown <= 0:
-            Bullets.bullets.append(copy.deepcopy(Movement.position))
+            shipBullet_entity.add_shipBullet((player_pos.x, player_pos.y, 0, -1200))
             InputState.cooldown = InputState.cooldown_time
         
         InputState.cooldown -= dt

@@ -41,9 +41,9 @@ class Movement:
         self.vx = vx
         self.vy = vy
 
-class Bullets:
-    # each elt of bullets is a vector of two
-    # bullet.x = x-component
-    # bullet.y = y-component
-    def __init__(self):
-        self.bullets = []
+# class Bullets:
+#     # each elt of bullets is a vector of two
+#     # bullet.x = x-component
+#     # bullet.y = y-component
+#     def __init__(self):
+#         self.bullets = []
