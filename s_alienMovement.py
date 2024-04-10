@@ -4,11 +4,14 @@ import copy
 
 class AlienMovement:
     def moveAliens(self, dt, aliens_entities, alienBullet_entity):
-        for _ in range(aliens_entities.num):
-            for move in aliens_entities.movement:
+        for i, move in enumerate(aliens_entities.movement):
+            #alienBullet_entity.add_alienBullet((move.position.x, move.position.y, 0, 1200))
+            move.position.x += dt * move.vx
+            move.position.y += dt * move.vy
+            if aliens_entities.cooldown[i].cooldownValue <= 0:
                 alienBullet_entity.add_alienBullet((move.position.x, move.position.y, 0, 1200))
-                move.position.x += dt * move.vx
-                move.position.y += dt * move.vy
+                aliens_entities.cooldown[i].cooldownValue = aliens_entities.cooldown[i].cooldownTime
+            aliens_entities.cooldown[i].cooldownValue -= dt
 
     def moveAlienBullets(self, dt, alienBullet_entity):
         #Bullet Movement & deletion
@@ -16,7 +19,7 @@ class AlienMovement:
             mov.position.y += dt * mov.vy
             # Remove bullets that are off-screen
             if mov.position.y < -20:
-                alienBullet_entity.remove(mov)
+                alienBullet_entity.movement.remove(mov)
 
 
             

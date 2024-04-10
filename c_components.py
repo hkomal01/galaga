@@ -23,9 +23,9 @@ class Input_State:
         self.shootk = shootk
         self.quitk = quitk
         self.pausek = pausek
-        self.cooldown = 0
-        self.cooldown_time = .18
-        self.update()
+        # self.cooldown = 0
+        # self.cooldown_time = .18
+        self.update() #Leave it here
 
     def update(self):
         self.value = pygame.key.get_pressed()
@@ -41,9 +41,7 @@ class Movement:
         self.vx = vx
         self.vy = vy
 
-# class Bullets:
-#     # each elt of bullets is a vector of two
-#     # bullet.x = x-component
-#     # bullet.y = y-component
-#     def __init__(self):
-#         self.bullets = []
+class CoolDown:
+    def __init__(self, cooldown_time):
+        self.cooldownValue = 0
+        self.cooldownTime = cooldown_time

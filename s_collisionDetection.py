@@ -27,6 +27,7 @@ class CollisionSystem:
             del alien_entity.health[i]
             del alien_entity.sprite[i]
             del alien_entity.movement[i]
+            del alien_entity.cooldown[i]
             alien_entity.num -= 1
             
         for p in deleteShipBullets[::-1]:
@@ -45,6 +46,7 @@ class CollisionSystem:
                     if ship_entity.health[0].health == 0:
                         explosion_entity.add_explosion((ship_entity.movement[0].position.x, 
                                                         ship_entity.movement[0].position.y, 0, 0))
+                        ship_entity.sprite.
                     break
         
         for b in deleteAlienBullets[::-1]:

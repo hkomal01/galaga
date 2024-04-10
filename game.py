@@ -16,6 +16,7 @@ SHIPBASEHEALTH = 3
 SHIP_SPRITE = "sprites/ship.png"
 KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE, pygame.K_p]
 MOVEMENT = [WIDTH / 2, (HEIGHT / 6) *5, 300, 0]
+COOLDOWN = 0.18
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
@@ -27,15 +28,15 @@ if __name__ == "__main__":
     pygame.init()
     
     #ENTITIES
-    ship_entity = e_entity.Ship(SHIPBASEHEALTH, SHIP_SPRITE, KEYS, MOVEMENT)
+    ship_entity = e_entity.Ship(SHIPBASEHEALTH, SHIP_SPRITE, KEYS, MOVEMENT, COOLDOWN)
     shipBullet_entity = e_entity.ShipBullet()
     
     aliens_entities = e_entity.Alien()
-    aliens_entities.add_alien(1, "sprites/enemy1.png", (1*WIDTH/6, HEIGHT/2, 1, -5))
-    aliens_entities.add_alien(1, "sprites/enemy2.png", (2*WIDTH/6, HEIGHT/2, 1, -4))
-    # aliens_entities.add_alien(1, "sprites/enemy3.png", (3*WIDTH/6, HEIGHT/2, 1, -3))
-    aliens_entities.add_alien(1, "sprites/enemy1.png", (4*WIDTH/6, HEIGHT/2, 1, -2))
-    aliens_entities.add_alien(1, "sprites/enemy2.png", (5*WIDTH/6, HEIGHT/2, 1, -1))
+    aliens_entities.add_alien(1, "sprites/enemy1.png", (1 * WIDTH / 6, HEIGHT / 2, 1, -5), 1)
+    aliens_entities.add_alien(1, "sprites/enemy2.png", (2 * WIDTH / 6, HEIGHT / 2, 1, -4), 1.5)
+    aliens_entities.add_alien(1, "sprites/enemy3.png", (3 * WIDTH / 6, HEIGHT/2, 1, -3), .75)
+    aliens_entities.add_alien(1, "sprites/enemy1.png", (4 * WIDTH / 6, HEIGHT / 2, 1, -2), 3)
+    aliens_entities.add_alien(1, "sprites/enemy2.png", (5 * WIDTH / 6, HEIGHT / 2, 1, -1), 2)
     alienBullet_entity = e_entity.AlienBullet()
     
     explosion_entities = e_entity.Explosion()
@@ -46,8 +47,7 @@ if __name__ == "__main__":
     rendering_system = s_renderingSystem.RenderingSystem()
     collision_system = s_collisionDetection.CollisionSystem()
     explosion_system = s_explosion.ExplosionSystem()
-    
-    
+
     while running and not ship_entity.input_state[0].quit:
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
@@ -59,8 +59,9 @@ if __name__ == "__main__":
 
         #SYSTEM
         #MOVEMENT (Ship & Alien)
-        ship_system.moveShipsAndBullets(dt, ship_entity.input_state[0], 
-                                        shipBullet_entity, ship_entity.movement[0])
+        ship_system.moveShip(dt, ship_entity, shipBullet_entity)
+        ship_system.moveShipBullets(dt, shipBullet_entity)
+        
         aliens_system.moveAliens(dt, aliens_entities, alienBullet_entity)
         aliens_system.moveAlienBullets(dt, alienBullet_entity)
 
