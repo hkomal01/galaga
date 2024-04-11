@@ -1,5 +1,6 @@
 import pygame
 import game
+
 class Health:
     def __init__(self, initHealth):
         self.health = initHealth

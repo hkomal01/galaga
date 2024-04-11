@@ -1,6 +1,7 @@
 import pygame
 import c_components as comp
 import game
+
 class Ship:
     def __init__(self, hp, sprite, inputs, movement, cooldown):
             self.health = [comp.Health(hp)]
