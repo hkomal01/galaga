@@ -10,6 +10,21 @@ import s_collisionDetection
 import s_explosion
 import time
 import threading
+import math
+
+def sinMovement(t):
+	if t > 100 and t < 200:
+		return (0, 0)
+	return (500 * math.sin(t * .1), 30)
+
+def move2(t):
+	return (1000 * math.sin(t), 30)
+
+def circleMovement(t):
+	if t > 100 and t < 200:
+		return (0, 0)
+	return (50 * math.sin(t * .1), 30)
+
 
 WIDTH = 1024
 HEIGHT = 768
@@ -19,7 +34,9 @@ KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE, pygame.K_p]
 MOVEMENT = [WIDTH / 2, (HEIGHT / 6) *5, 300, 0]
 COOLDOWN = 0.18
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+
 clock = pygame.time.Clock()
+pygame.font.init()
 
 running = True
 dt = 0
@@ -30,20 +47,25 @@ if __name__ == "__main__":
 	
 	#ENTITIES
 	ship_entity = e_entity.Ship(SHIPBASEHEALTH, SHIP_SPRITE, KEYS, MOVEMENT, 
-							    COOLDOWN)
+								COOLDOWN)
 	shipBullet_entity = e_entity.ShipBullet()
 	
 	aliens_entities = e_entity.Alien()
-	aliens_entities.add_alien(1, "sprites/enemy1.png", 
-						     (1 * WIDTH / 6, HEIGHT / 2, 1, -5), 1)
+	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
+	# 					     (1 * WIDTH / 6, HEIGHT / 2, 0, -0), 1)
+	# aliens_entities.add_alien(1, "sprites/enemy2.png", 
+	# 					     (2 * WIDTH / 6, HEIGHT / 2, 0, 0), 1.5)
+	# aliens_entities.add_alien(1, "sprites/enemy3.png", 
+	# 					     (2.5 * WIDTH / 6, HEIGHT/2, 0, 0), .5)
 	aliens_entities.add_alien(1, "sprites/enemy2.png", 
-						     (2 * WIDTH / 6, HEIGHT / 2, 1, -4), 1.5)
+							 (1 * WIDTH / 4, (HEIGHT / 6) * 5 - 10, 0, 0), 3)
 	aliens_entities.add_alien(1, "sprites/enemy3.png", 
-						     (2.5 * WIDTH / 6, HEIGHT/2, 1, -3), .5)
+							 (2 * WIDTH / 6, HEIGHT - 650, 0, 0), 3, sinMovement)
 	aliens_entities.add_alien(1, "sprites/enemy1.png", 
-						     (4 * WIDTH / 6, HEIGHT / 2, 1, -2), 3)
-	aliens_entities.add_alien(1, "sprites/enemy2.png", 
-						     (5 * WIDTH / 6, HEIGHT / 2, 1, -1), 2)
+							 (4 * WIDTH / 6, HEIGHT - 600, 0, 0), .5, sinMovement)
+
+	# aliens_entities.add_alien(1, "sprites/enemy2.png", 
+	#  						 (5 * WIDTH / 6, HEIGHT / 2, 1, -1), 2, circleMovement)
 	alienBullet_entity = e_entity.AlienBullet()
 	
 	explosion_entities = e_entity.Explosion()
@@ -54,8 +76,14 @@ if __name__ == "__main__":
 	rendering_system = s_renderingSystem.RenderingSystem()
 	collision_system = s_collisionDetection.CollisionSystem()
 	explosion_system = s_explosion.ExplosionSystem()
+	frame_count = -1
 
 	while running and not ship_entity.input_state[0].quit:
+		frame_count += 1
+		if frame_count == 100:
+			aliens_entities.add_alien(1, "sprites/enemy1.png", 
+										(4 * WIDTH / 6, 50, 0, 0), 10, sinMovement)
+
 		# poll for events
 		# pygame.QUIT event means the user clicked X to close your window
 		for event in pygame.event.get():
@@ -73,7 +101,7 @@ if __name__ == "__main__":
 		threads.append(threading.Thread(target=ship_system.moveShipBullets,
 							args = (dt, shipBullet_entity)))
 		threads.append(threading.Thread(target=aliens_system.moveAliens,
-							args = (dt, aliens_entities, alienBullet_entity)))
+							args = (dt, aliens_entities, alienBullet_entity, frame_count)))
 		threads.append(threading.Thread(target=aliens_system.moveAlienBullets,
 							args = (dt, alienBullet_entity)))
 		threads.append(threading.Thread(target=explosion_system.update,
@@ -88,6 +116,12 @@ if __name__ == "__main__":
 		#COLLISION THREADS
 		threads2 = []
 		
+		if frame_count > 2:	
+			threads2.append(threading.Thread(target=
+									collision_system.checkShipAlienCollision,
+											args = (aliens_entities,
+														explosion_entities, 
+														ship_entity)))
 		threads2.append(threading.Thread(target=
 								   collision_system.checkAlienCollision,
 										args = (shipBullet_entity, 
@@ -102,7 +136,7 @@ if __name__ == "__main__":
 			thread.start()
 		for thread in threads2:
 			thread.join()
-		
+  
 		#SYSTEM
 		#RENDERING THREADS
 		threads3 = []
@@ -111,6 +145,9 @@ if __name__ == "__main__":
 			threads3.append(threading.Thread(target=rendering_system.render,
 		  						args = (ship_entity.movement[0], 
 				 						ship_entity.sprite[0])))
+		else:
+			threads3.append(threading.Thread(target=rendering_system.renderText,
+								args = ("GAME OVER", (255, 0, 0), WIDTH, HEIGHT)))
 		
 		for i in range(aliens_entities.num):
 			threads3.append(threading.Thread(target=rendering_system.render,

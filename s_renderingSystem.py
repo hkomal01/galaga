@@ -24,3 +24,12 @@ class RenderingSystem:
             hRect = hImage.get_rect()
             hRect.center = pygame.Vector2(40 + i * 50, 25)
             game.SCREEN.blit(hImage, hRect)
+            
+    def renderText(self, message, color, xPos, yPos):
+        font = pygame.font.Font(None, 50)
+        goImage = font.render(message, 0, color)
+        goRect = goImage.get_rect()
+        goRect.x = xPos // 2 - goRect.width // 2
+        goRect.y = yPos // 2 - goRect.height // 2
+        game.SCREEN.blit(goImage, goRect)
+        return

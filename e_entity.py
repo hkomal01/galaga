@@ -1,6 +1,11 @@
 import pygame
 import c_components as comp
 import game
+import math
+
+
+
+
 
 class Ship:
     def __init__(self, hp, sprite, inputs, movement, cooldown):
@@ -20,11 +25,11 @@ class Alien:
         self.cooldown = []
         self.num = 0
         
-    def add_alien(self, health, sprite, movement, cooldown):
+    def add_alien(self, health, sprite, movement, cooldown, fn = None):
         self.health.append(comp.Health(health))
         self.sprite.append(comp.Sprite(sprite))
         self.movement.append(comp.Movement(movement[0], movement[1], 
-                                           movement[2], movement[3]))
+                                           movement[2], movement[3], fn))
         self.cooldown.append(comp.CoolDown(cooldown))
         self.num += 1
 

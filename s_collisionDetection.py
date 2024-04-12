@@ -55,3 +55,35 @@ class CollisionSystem:
         
         for b in deleteAlienBullets[::-1]:
                 del alienBullet_entity.movement[b]
+                
+    def checkShipAlienCollision(self, alien_entity, explosion_entity, ship_entity):
+        
+        #Ship dead
+        if (ship_entity.health[0].health <= 0):
+            return
+        
+        markDeathAlien = []
+        
+        for i, alien in enumerate(alien_entity.sprite):
+                ship_rect = ship_entity.sprite[0].rect
+                print(f"Ship is at {ship_rect}")
+                print(f"Current alien at {alien.rect}\n\n")
+                if ship_rect.colliderect(alien.rect):
+                    print("COLLIDED")
+                    # ship and alien collision happened
+                    ship_entity.health[0].health -= 1
+                    markDeathAlien.append(i)
+                    if ship_entity.health[0].health == 0:
+                        explosion_entity.add_explosion((ship_entity.movement[0].position.x, 
+                                                        ship_entity.movement[0].position.y, 0, 0))
+                    break
+        print(markDeathAlien)
+        
+        for i in markDeathAlien[::-1]:
+            movement = alien_entity.movement[i]
+            explosion_entity.add_explosion((movement.position.x, movement.position.y, 0, 0))
+            del alien_entity.health[i]
+            del alien_entity.sprite[i]
+            del alien_entity.movement[i]
+            del alien_entity.cooldown[i]
+            alien_entity.num -= 1
