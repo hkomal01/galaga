@@ -66,10 +66,7 @@ class CollisionSystem:
         
         for i, alien in enumerate(alien_entity.sprite):
                 ship_rect = ship_entity.sprite[0].rect
-                print(f"Ship is at {ship_rect}")
-                print(f"Current alien at {alien.rect}\n\n")
                 if ship_rect.colliderect(alien.rect):
-                    print("COLLIDED")
                     # ship and alien collision happened
                     ship_entity.health[0].health -= 1
                     markDeathAlien.append(i)
@@ -77,7 +74,6 @@ class CollisionSystem:
                         explosion_entity.add_explosion((ship_entity.movement[0].position.x, 
                                                         ship_entity.movement[0].position.y, 0, 0))
                     break
-        print(markDeathAlien)
         
         for i in markDeathAlien[::-1]:
             movement = alien_entity.movement[i]
