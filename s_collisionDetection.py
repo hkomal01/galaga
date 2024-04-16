@@ -74,7 +74,6 @@ class CollisionSystem:
                         explosion_entity.add_explosion((ship_entity.movement[0].position.x, 
                                                         ship_entity.movement[0].position.y, 0, 0))
                     break
-        print(markDeathAlien)
         
         for i in markDeathAlien[::-1]:
             movement = alien_entity.movement[i]

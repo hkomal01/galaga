@@ -26,10 +26,26 @@ def circleMovement(t):
 		return (0, 0)
 	return (50 * math.sin(t * .1), 30)
 
+# Constant rotation time (period and radius parameterized by rot time)
+def enter(t):
+	# Rotation completes every 100 frames
+	period = 2 * math.pi / 100
+	r = 768
+	if (math.isclose(math.cos(period * t), 0, rel_tol=.99)):
+		print(r * math.cos(period * t))
+	return (r * math.cos(period * (t)), r * math.sin(period * (t)))
+
+# Constant radius. 
+def enter2(t):
+	r = 334
+	w = (2 * math.pi) / 100
+
+	return (r * math.cos(w * t), r * math.sin(w * t))
+
 
 WIDTH = 1024
 HEIGHT = 768
-SHIPBASEHEALTH = 3
+SHIPBASEHEALTH = 101010
 SHIP_SPRITE = "sprites/ship.png"
 KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE, pygame.K_p]
 MOVEMENT = [WIDTH / 2, (HEIGHT / 6) *5, 300, 0]
@@ -61,7 +77,7 @@ if __name__ == "__main__":
 	aliens_entities.add_alien(1, "sprites/enemy2.png", 
 							 (1 * WIDTH / 4, (HEIGHT / 6) * 5 - 10, 0, 0), 3)
 	aliens_entities.add_alien(1, "sprites/enemy3.png", 
-							 (2 * WIDTH / 6, HEIGHT - 650, 0, 0), 3, sinMovement)
+							 (WIDTH / 2, 0, 0, 0), 3, enter2)
 	aliens_entities.add_alien(1, "sprites/enemy1.png", 
 							 (4 * WIDTH / 6, HEIGHT - 600, 0, 0), .5, sinMovement)
 
@@ -85,8 +101,17 @@ if __name__ == "__main__":
 	while running and not ship_entity.input_state[0].quit:
 		frame_count += 1
 		if frame_count == 100:
-			aliens_entities.add_alien(1, "sprites/enemy1.png", 
-										(4 * WIDTH / 6, 50, 0, 0), 10, sinMovement)
+			aliens_entities.add_alien(1, "sprites/enemy3.png", 
+							 (WIDTH / 2 - 100, 0, 0, 0), 3/4, enter2)
+		if frame_count == 200:
+			aliens_entities.add_alien(1, "sprites/enemy3.png", 
+							 (WIDTH / 2 + 100, 0, 0, 0), 3/4, enter2)
+		if frame_count == 300:
+			aliens_entities.add_alien(1, "sprites/enemy3.png", 
+							 (WIDTH / 2 - 200, 0, 0, 0), 3/4, enter2)
+		if frame_count == 400:
+			aliens_entities.add_alien(1, "sprites/enemy3.png", 
+							 (WIDTH / 2 + 200, 0, 0, 0), 3/4, enter2)
 
 		# poll for events
 		# pygame.QUIT event means the user clicked X to close your window
