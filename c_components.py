@@ -47,3 +47,7 @@ class CoolDown:
     def __init__(self, cooldown_time):
         self.cooldownValue = 0
         self.cooldownTime = cooldown_time
+        
+class Size:
+    def __init__(self, width, height):
+        self.size = (width, height)

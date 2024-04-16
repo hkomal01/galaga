@@ -64,7 +64,19 @@ class ShipBullet:
 class AlienBullet:
     def __init__(self):
         self.movement = []
+        
     def add_alienBullet(self, movement):
         self.movement.append(comp.Movement(movement[0], movement[1], 
                                            movement[2], movement[3]))
+        
+class Star:
+    def __init__(self):
+        self.size = []
+        self.movement = []
+        
+    def add_star(self, size, movement):
+        self.size.append(comp.Size(size[0], size[1]))
+        self.movement.append(comp.Movement(movement[0], movement[1], 
+                                           movement[2], movement[3]))
+        
         

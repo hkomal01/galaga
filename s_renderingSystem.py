@@ -33,3 +33,13 @@ class RenderingSystem:
         goRect.y = yPos // 2 - goRect.height // 2
         game.SCREEN.blit(goImage, goRect)
         return
+
+    def renderStar(self, start_entity):
+        color = (255, 255, 255)
+        for (starSize, starMovement) in zip(start_entity.size, start_entity.movement):
+            sImage = pygame.Surface(starSize.size)
+            sImage.fill(color)
+            sRect = sImage.get_rect()
+            sRect.x = starMovement.position.x
+            sRect.y = starMovement.position.y
+            game.SCREEN.blit(sImage, sRect)

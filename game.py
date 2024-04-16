@@ -8,6 +8,7 @@ import s_alienMovement
 import s_renderingSystem
 import s_collisionDetection
 import s_explosion
+import s_stars
 import time
 import threading
 import math
@@ -69,6 +70,8 @@ if __name__ == "__main__":
 	alienBullet_entity = e_entity.AlienBullet()
 	
 	explosion_entities = e_entity.Explosion()
+ 
+	star_entities = e_entity.Star()
 	
 	#SYSTEMS
 	ship_system = s_shipMovement.ShipMovement()
@@ -76,6 +79,7 @@ if __name__ == "__main__":
 	rendering_system = s_renderingSystem.RenderingSystem()
 	collision_system = s_collisionDetection.CollisionSystem()
 	explosion_system = s_explosion.ExplosionSystem()
+	star_system = s_stars.Stars()
 	frame_count = -1
 
 	while running and not ship_entity.input_state[0].quit:
@@ -92,6 +96,9 @@ if __name__ == "__main__":
 		# fill the screen with a color to wipe away anything from last frame
 		SCREEN.fill("black")
 
+		star_system.moveStar(dt, star_entities)
+		star_system.createStar(star_entities)
+  
 		#SYSTEM
 		#MOVEMENT & EXPLOSION THREADS
 		threads = []
@@ -139,6 +146,9 @@ if __name__ == "__main__":
   
 		#SYSTEM
 		#RENDERING THREADS
+  
+		rendering_system.renderStar(star_entities)
+
 		threads3 = []
 		
 		if ship_entity.health[0].health > 0:
