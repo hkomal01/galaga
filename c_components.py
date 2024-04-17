@@ -24,8 +24,6 @@ class Input_State:
         self.shootk = shootk
         self.quitk = quitk
         self.pausek = pausek
-        # self.cooldown = 0
-        # self.cooldown_time = .18
         self.update() #Leave it here
 
     def update(self):
@@ -41,6 +39,7 @@ class Movement:
         self.position = pygame.Vector2(x, y)
         self.vx = vx
         self.vy = vy
+        self.t = 0
         self.fn = fn
 
 class CoolDown:

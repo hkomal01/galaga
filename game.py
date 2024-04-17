@@ -14,9 +14,12 @@ import threading
 import math
 
 def sinMovement(t):
-	if t > 100 and t < 200:
-		return (0, 0)
-	return (500 * math.sin(t * .1), 30)
+    amplitude = 500 # Increase this for higher amplitude
+    frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+    if t > 5 and t < 10:
+        return (amplitude * math.sin(t * frequency), 20*t, 0)
+    else:
+        return (amplitude * math.sin(t * frequency), 20*t, 5)
 
 def move2(t):
 	return (1000 * math.sin(t), 30)
@@ -42,11 +45,21 @@ def enter2(t):
 
 	return (r * math.cos(w * t), r * math.sin(w * t))
 
+# Constant radius. 
+def enter3(t):
+	r = 600
+	w = (2 * math.pi) / 150
+	# if t < 150:
+	# 	return (50, r * math.sin(w * t))
+	
+	return (500 * math.cos(w * t), 30)
 
-WIDTH = 1024
-HEIGHT = 768
+
+WIDTH = 768 #1024
+HEIGHT = 1024 #768
 SHIPBASEHEALTH = 101010
 SHIP_SPRITE = "sprites/ship.png"
+SOUNDTRACK = "sounds/soundtrack8bit.mp3"
 KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE, pygame.K_p]
 MOVEMENT = [WIDTH / 2, (HEIGHT / 6) *5, 300, 0]
 COOLDOWN = 0.18
@@ -57,6 +70,8 @@ pygame.font.init()
 
 running = True
 dt = 0
+
+alienLock = threading.Lock()
 
 if __name__ == "__main__":
 	
@@ -74,12 +89,22 @@ if __name__ == "__main__":
 	# 					     (2 * WIDTH / 6, HEIGHT / 2, 0, 0), 1.5)
 	# aliens_entities.add_alien(1, "sprites/enemy3.png", 
 	# 					     (2.5 * WIDTH / 6, HEIGHT/2, 0, 0), .5)
-	aliens_entities.add_alien(1, "sprites/enemy2.png", 
-							 (1 * WIDTH / 4, (HEIGHT / 6) * 5 - 10, 0, 0), 3)
-	aliens_entities.add_alien(1, "sprites/enemy3.png", 
-							 (WIDTH / 2, 0, 0, 0), 3, enter2)
+	# aliens_entities.add_alien(1, "sprites/enemy2.png", 
+	# 						 (1 * WIDTH / 4, (HEIGHT / 6) * 5 - 10, 0, 0), 3)
+	# aliens_entities.add_alien(1, "sprites/enemy3.png", 
+	# 						 (WIDTH / 2, 0, 0, 0), 3, enter3)
+	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
+	# 						 ( WIDTH / 2, -10, 0, 0), .5, sinMovement)
+	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
+	# 						 ( WIDTH / 2, -100, 0, 0), .5, sinMovement)
+	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
+	# 						 ( WIDTH / 2, -200, 0, 0), .5, sinMovement)
 	aliens_entities.add_alien(1, "sprites/enemy1.png", 
-							 (4 * WIDTH / 6, HEIGHT - 600, 0, 0), .5, sinMovement)
+							 ( WIDTH / 2, -300, 0, 0), .5, sinMovement)
+	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
+	# 						 ( WIDTH / 2, -10, 0, 0), .5, sinMovement2)
+	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
+	# 						 ( WIDTH / 2, -10, 0, 0), .5, sinMovement2)
 
 	# aliens_entities.add_alien(1, "sprites/enemy2.png", 
 	#  						 (5 * WIDTH / 6, HEIGHT / 2, 1, -1), 2, circleMovement)
@@ -97,33 +122,58 @@ if __name__ == "__main__":
 	explosion_system = s_explosion.ExplosionSystem()
 	star_system = s_stars.Stars()
 	frame_count = -1
+ 
+	#Soundtrack initialization
+	pygame.mixer.init()
+	pygame.mixer.music.load(SOUNDTRACK)
+	pygame.mixer.music.set_volume(0.7)
+	pygame.mixer.music.play()
+	mute = False
+ 
+	#Pause
+	pause = False
+ 
+	#Initialize background 
+	star_system.initiateSky(star_entities)
 
 	while running and not ship_entity.input_state[0].quit:
 		frame_count += 1
-		if frame_count == 100:
-			aliens_entities.add_alien(1, "sprites/enemy3.png", 
-							 (WIDTH / 2 - 100, 0, 0, 0), 3/4, enter2)
-		if frame_count == 200:
-			aliens_entities.add_alien(1, "sprites/enemy3.png", 
-							 (WIDTH / 2 + 100, 0, 0, 0), 3/4, enter2)
-		if frame_count == 300:
-			aliens_entities.add_alien(1, "sprites/enemy3.png", 
-							 (WIDTH / 2 - 200, 0, 0, 0), 3/4, enter2)
-		if frame_count == 400:
-			aliens_entities.add_alien(1, "sprites/enemy3.png", 
-							 (WIDTH / 2 + 200, 0, 0, 0), 3/4, enter2)
+		# if frame_count == 20:
+		# 	aliens_entities.add_alien(1, "sprites/enemy1.png", 
+		# 					 ( WIDTH / 2, -10, 0, 0), .5, sinMovement)
+		# if frame_count == 100:
+		# 	aliens_entities.add_alien(1, "sprites/enemy3.png", 
+		# 					 (WIDTH / 2 - 100, 0, 0, 0), 3/4, enter2)
+		# if frame_count == 200:
+		# 	aliens_entities.add_alien(1, "sprites/enemy3.png", 
+		# 					 (WIDTH / 2 + 100, 0, 0, 0), 3/4, enter2)
+		# if frame_count == 300:
+		# 	aliens_entities.add_alien(1, "sprites/enemy3.png", 
+		# 					 (WIDTH / 2 - 200, 0, 0, 0), 3/4, enter2)
+		# if frame_count == 400:
+		# 	aliens_entities.add_alien(1, "sprites/enemy3.png", 
+		# 					 (WIDTH / 2 + 200, 0, 0, 0), 3/4, enter2)
 
-		# poll for events
-		# pygame.QUIT event means the user clicked X to close your window
+		#Poll for events QUIT, MUTE, and PAUSE
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
-		# fill the screen with a color to wipe away anything from last frame
-		SCREEN.fill("black")
-
-		star_system.moveStar(dt, star_entities)
-		star_system.createStar(star_entities)
-  
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_m:
+					if mute:
+						mute = False
+						pygame.mixer.music.unpause()
+					else:
+						mute = True
+						pygame.mixer.music.pause()
+				if event.key == pygame.K_p:
+					if pause:
+						pause = False
+					else:
+						pause = True
+		if pause:
+			continue
+		
 		#SYSTEM
 		#MOVEMENT & EXPLOSION THREADS
 		threads = []
@@ -138,6 +188,8 @@ if __name__ == "__main__":
 							args = (dt, alienBullet_entity)))
 		threads.append(threading.Thread(target=explosion_system.update,
 		 					args = (explosion_entities,)))
+		threads.append(threading.Thread(target=star_system.moveStar,
+		 					args = (dt, star_entities)))
   
 		for thread in threads:
 			thread.start()
@@ -145,7 +197,7 @@ if __name__ == "__main__":
 			thread.join()
 
 		#SYSTEM
-		#COLLISION THREADS
+		#COLLISION & STAR CREATION THREADS
 		threads2 = []
 		
 		if frame_count > 2:	
@@ -153,17 +205,22 @@ if __name__ == "__main__":
 									collision_system.checkShipAlienCollision,
 											args = (aliens_entities,
 														explosion_entities, 
-														ship_entity)))
+														ship_entity,
+              											alienLock)))
 		threads2.append(threading.Thread(target=
 								   collision_system.checkAlienCollision,
 										args = (shipBullet_entity, 
 													aliens_entities, 
-													explosion_entities)))
+													explosion_entities,
+             										alienLock)))
 		threads2.append(threading.Thread(target=
 								   collision_system.checkShipCollision,
 										args = (alienBullet_entity,
 													explosion_entities, 
 													ship_entity)))
+		threads2.append(threading.Thread(target= star_system.createStar,
+										args = (star_entities,)))
+
 		for thread in threads2:
 			thread.start()
 		for thread in threads2:
@@ -172,6 +229,8 @@ if __name__ == "__main__":
 		#SYSTEM
 		#RENDERING THREADS
   
+		#Render background
+		SCREEN.fill("black")
 		rendering_system.renderStar(star_entities)
 
 		threads3 = []
@@ -195,13 +254,14 @@ if __name__ == "__main__":
 										[explosion_entities.animIndex[n]])))
 		threads3.append(threading.Thread(target=rendering_system.renderBullets,
 								args = (shipBullet_entity, alienBullet_entity)))
-		threads3.append(threading.Thread(target=rendering_system.renderHud,
-								args = (ship_entity,)))
 
 		for thread in threads3:
 			thread.start()
 		for thread in threads3:
 			thread.join()
+
+		#Render HUD
+		rendering_system.renderHud(ship_entity)
 
 		# flip() the display to put your work on screen
 		pygame.display.flip()

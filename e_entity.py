@@ -12,7 +12,8 @@ class Ship:
             self.health = [comp.Health(hp)]
             self.sprite = [comp.Sprite(sprite)]
             self.input_state = [comp.Input_State(inputs[0], inputs[1], 
-                                                 inputs[2], inputs[3], inputs[4])]
+                                                 inputs[2], inputs[3], 
+                                                 inputs[4])]
             self.movement = [comp.Movement(movement[0], movement[1], 
                                            movement[2], movement[3])]
             self.cooldown = [comp.CoolDown(cooldown)]

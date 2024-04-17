@@ -7,9 +7,10 @@ class AlienMovement:
         for i, move in enumerate(aliens_entities.movement):
             #alienBullet_entity.add_alienBullet((move.position.x, move.position.y, 0, 1200))
             if move.fn != None:
-                (vx, vy) = move.fn(frame_count)
-                move.position.x += dt * vx
-                move.position.y += dt * vy
+                (x, y, inc) = move.fn(move.t)
+                move.position.x = x
+                move.position.y = y
+                move.t += inc * dt
             else:
                 move.position.x += dt * move.vx
                 move.position.y += dt * move.vy
