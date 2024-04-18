@@ -14,29 +14,73 @@ import threading
 import math
 
 def sinMovement(t):
-    amplitude = 500 # Increase this for higher amplitude
-    frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-    if t > 5 and t < 10:
-        return (amplitude * math.sin(t * frequency), 20*t, 0)
-    else:
-        return (amplitude * math.sin(t * frequency), 20*t, 5)
+	amplitude = 500 # Increase this for higher amplitude
+	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+	if t > 5 and t < 10:
+		return (amplitude * math.sin(t * frequency), 20*t, 0)
+	else:
+		return (amplitude * math.sin(t * frequency), 20*t, 5)
+
+def sinMovement2(t):
+	amplitude = 500 # Increase this for higher amplitude
+	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+	return (amplitude * math.sin(t * frequency), 20*t, 5)
+
+def sinMovement3(t):
+	amplitude = 500 # Increase this for higher amplitude
+	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+	if t < 1:
+		return (amplitude * math.sin((t - 0 * math.pi / 2) * frequency), 20*t, 1)
+	
+	return (amplitude * math.sin((t - 0 * math.pi / 2) * frequency), 20*t, 5)
 
 def move2(t):
 	return (1000 * math.sin(t), 30)
 
-def circleMovement(t):
-	if t > 100 and t < 200:
-		return (0, 0)
-	return (50 * math.sin(t * .1), 30)
+def circleMovement(move):
+	t = move.t
+	return (100 * math.cos(t) + 354, 100 * math.sin(t) + 512, 1)
+
+def oscillate(move):
+	t = move.t
+	return (300 * math.cos(t) + 354, 100, 1)
+
+def enter_then_circle(move):
+	t = move.t
+	amplitude = 300 # Increase this for higher amplitude
+	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+	# if t > 10:
+	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
+	# else:
+	if (amplitude * frequency * math.cos(t * frequency)) == 0:
+		move.fn = enter_rev
+		return enter_rev(move)
+	return (amplitude * math.sin(t * frequency) + 354, 20*t, 5)
 
 # Constant rotation time (period and radius parameterized by rot time)
-def enter(t):
-	# Rotation completes every 100 frames
-	period = 2 * math.pi / 100
-	r = 768
-	if (math.isclose(math.cos(period * t), 0, rel_tol=.99)):
-		print(r * math.cos(period * t))
-	return (r * math.cos(period * (t)), r * math.sin(period * (t)))
+def enter(move):
+	t = move.t
+	amplitude = 300 # Increase this for higher amplitude
+	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+	# if t > 10:
+	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
+	# else:
+	if 20*t > (HEIGHT - 200):
+		move.fn = enter_rev
+		return enter_rev(move)
+	return (amplitude * math.sin(t * frequency) + 354, 20*t, 5)
+
+def enter_rev(move):
+	t = move.t
+	amplitude = 300 # Increase this for higher amplitude
+	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+	# if t > 10:
+	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
+	# else:
+	if 20*t < (200):
+		move.fn = enter
+		return enter(move)
+	return (amplitude * math.sin(t * frequency) + 354, 20*t, -5)
 
 # Constant radius. 
 def enter2(t):
@@ -95,14 +139,14 @@ if __name__ == "__main__":
 	# 						 (WIDTH / 2, 0, 0, 0), 3, enter3)
 	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
 	# 						 ( WIDTH / 2, -10, 0, 0), .5, sinMovement)
-	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
-	# 						 ( WIDTH / 2, -100, 0, 0), .5, sinMovement)
-	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
-	# 						 ( WIDTH / 2, -200, 0, 0), .5, sinMovement)
 	aliens_entities.add_alien(1, "sprites/enemy1.png", 
-							 ( WIDTH / 2, -300, 0, 0), .5, sinMovement)
-	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
-	# 						 ( WIDTH / 2, -10, 0, 0), .5, sinMovement2)
+							 ( WIDTH / 2, -100, 0, 0), .5, enter_then_circle)
+	aliens_entities.add_alien(1, "sprites/enemy1.png", 
+							 ( WIDTH / 2, 0, 0, 0), .5, enter)
+	aliens_entities.add_alien(1, "sprites/enemy1.png", 
+							 ( WIDTH / 2, 0, 0, 0), .5, oscillate)
+	aliens_entities.add_alien(1, "sprites/enemy1.png", 
+	 						 ( WIDTH / 2, -10, 0, 0), .5, circleMovement)
 	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
 	# 						 ( WIDTH / 2, -10, 0, 0), .5, sinMovement2)
 
@@ -206,13 +250,13 @@ if __name__ == "__main__":
 											args = (aliens_entities,
 														explosion_entities, 
 														ship_entity,
-              											alienLock)))
+			  											alienLock)))
 		threads2.append(threading.Thread(target=
 								   collision_system.checkAlienCollision,
 										args = (shipBullet_entity, 
 													aliens_entities, 
 													explosion_entities,
-             										alienLock)))
+			 										alienLock)))
 		threads2.append(threading.Thread(target=
 								   collision_system.checkShipCollision,
 										args = (alienBullet_entity,
