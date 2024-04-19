@@ -35,12 +35,14 @@ class Input_State:
         self.shoot = self.value[self.shootk]
 
 class Movement:
-    def __init__(self, x, y, vx, vy, fn = None):
+    def __init__(self, x, y, vx, vy, fn = None, px = None, py = None):
         self.position = pygame.Vector2(x, y)
         self.vx = vx
         self.vy = vy
         self.t = 0
         self.fn = fn
+        self.px = px
+        self.py = py
 
 class CoolDown:
     def __init__(self, cooldown_time):

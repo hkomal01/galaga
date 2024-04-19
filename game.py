@@ -13,90 +13,128 @@ import time
 import threading
 import math
 
-def sinMovement(t):
-	amplitude = 500 # Increase this for higher amplitude
-	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-	if t > 5 and t < 10:
-		return (amplitude * math.sin(t * frequency), 20*t, 0)
-	else:
-		return (amplitude * math.sin(t * frequency), 20*t, 5)
+# def sinMovement(t):
+# 	amplitude = 500 # Increase this for higher amplitude
+# 	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+# 	if t > 5 and t < 10:
+# 		return (amplitude * math.sin(t * frequency), 20*t, 0)
+# 	else:
+# 		return (amplitude * math.sin(t * frequency), 20*t, 5)
 
-def sinMovement2(t):
-	amplitude = 500 # Increase this for higher amplitude
-	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-	return (amplitude * math.sin(t * frequency), 20*t, 5)
+# def sinMovement2(t):
+# 	amplitude = 500 # Increase this for higher amplitude
+# 	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+# 	return (amplitude * math.sin(t * frequency), 20*t, 5)
 
-def sinMovement3(t):
-	amplitude = 500 # Increase this for higher amplitude
-	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-	if t < 1:
-		return (amplitude * math.sin((t - 0 * math.pi / 2) * frequency), 20*t, 1)
+# def sinMovement3(t):
+# 	amplitude = 500 # Increase this for higher amplitude
+# 	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+# 	if t < 1:
+# 		return (amplitude * math.sin((t - 0 * math.pi / 2) * frequency), 20*t, 1)
 	
-	return (amplitude * math.sin((t - 0 * math.pi / 2) * frequency), 20*t, 5)
+# 	return (amplitude * math.sin((t - 0 * math.pi / 2) * frequency), 20*t, 5)
 
-def move2(t):
-	return (1000 * math.sin(t), 30)
+# def move2(t):
+# 	return (1000 * math.sin(t), 30)
 
-def circleMovement(move):
-	t = move.t
-	return (100 * math.cos(t) + 354, 100 * math.sin(t) + 512, 1)
+# def circleMovement(move):
+# 	t = move.t
+# 	return (100 * math.cos(t) + 354, 100 * math.sin(t) + 512, 1)
 
-def oscillate(move):
-	t = move.t
-	return (300 * math.cos(t) + 354, 100, 1)
+# def oscillate(move):
+# 	t = move.t
+# 	return (300 * math.cos(t) + 354, 100, 1)
 
-def enter_then_circle(move):
-	t = move.t
-	amplitude = 300 # Increase this for higher amplitude
-	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-	# if t > 10:
-	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
-	# else:
-	if (amplitude * frequency * math.cos(t * frequency)) == 0:
-		move.fn = enter_rev
-		return enter_rev(move)
-	return (amplitude * math.sin(t * frequency) + 354, 20*t, 5)
+# def enter_then_circle(move):
+# 	t = move.t
+# 	amplitude = 300 # Increase this for higher amplitude
+# 	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+# 	# if t > 10:
+# 	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
+# 	# else:
+# 	if (amplitude * frequency * math.cos(t * frequency)) == 0:
+# 		move.fn = enter_rev
+# 		return enter_rev(move)
+# 	return (amplitude * math.sin(t * frequency) + 354, 20*t, 5)
 
-# Constant rotation time (period and radius parameterized by rot time)
-def enter(move):
-	t = move.t
-	amplitude = 300 # Increase this for higher amplitude
-	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-	# if t > 10:
-	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
-	# else:
-	if 20*t > (HEIGHT - 200):
-		move.fn = enter_rev
-		return enter_rev(move)
-	return (amplitude * math.sin(t * frequency) + 354, 20*t, 5)
+# # Constant rotation time (period and radius parameterized by rot time)
+# def enter(move):
+# 	t = move.t
+# 	amplitude = 300 # Increase this for higher amplitude
+# 	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+# 	# if t > 10:
+# 	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
+# 	# else:
+# 	if 20*t > (HEIGHT - 200):
+# 		move.fn = stay(move)
+# 		return enter_rev(move)
+# 	return (amplitude * math.sin(t * frequency) + 354, 20*t, 5)
 
-def enter_rev(move):
-	t = move.t
-	amplitude = 300 # Increase this for higher amplitude
-	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-	# if t > 10:
-	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
-	# else:
-	if 20*t < (200):
-		move.fn = enter
-		return enter(move)
-	return (amplitude * math.sin(t * frequency) + 354, 20*t, -5)
+# def stay(move):
+# 	return (move.x, move.y, 0)
+
+# def enter_rev(move):
+# 	t = move.t
+# 	amplitude = 300 # Increase this for higher amplitude
+# 	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+# 	# if t > 10:
+# 	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
+# 	# else:
+# 	if 20*t < (200):
+# 		move.fn = enter
+# 		return enter(move)
+# 	return (amplitude * math.sin(t * frequency) + 354, 20*t, -5)
 
 # Constant radius. 
-def enter2(t):
-	r = 334
-	w = (2 * math.pi) / 100
+def sin1(move):
+	t = move.t
+	x = 300 * math.sin((t) * (1 / (2 * math.pi) )) + 354
+	y = 20*t
+	print(x, y)
+	if y > (HEIGHT - 600):
+		print("FUNCTION IS CHANGING!")
+		move.fn = sidetoside
+		move.px = x
+		move.py = y
+		# a * sin(x) + b
+		# arcsin((x - b) / )
+		move.t = math.asin((x - 354) / 300) 
+		print("px, py: ", move.px, move.py)
+		print()
+		#move.t = t
+		return (x, y, 1)
+	return (x, y, 7)
 
-	return (r * math.cos(w * t), r * math.sin(w * t))
+def sidetoside(move):
+	t = move.t
+	x = 300 * math.sin(t) + 354
+	y = move.py
+	print("Current pos", x, y) 
+	if np.isclose(x, move.px, .01):
+		move.fn = sin2
+		move.py = y
+		move.px = x
+		# move.t = math.asin((x - 354) / 300)
+		move.t = math.asin((x - 354) / 300) / (1 / (2 * math.pi))
+		return (x, y, 1)
+	return (x, y, 1)
 
-# Constant radius. 
-def enter3(t):
-	r = 600
-	w = (2 * math.pi) / 150
-	# if t < 150:
-	# 	return (50, r * math.sin(w * t))
+def sin2(move):
+	t = move.t
+	x = 300 * math.sin((t) * (1 / (2 * math.pi) )) + 354
+	y = 20*(t + 1.5) + move.py
+	print("SIN2", x, y)
+	return (x, y, 7)
+
+# # Constant radius. 
+# def enter3(t):
+# 	r = 600
+# 	w = (2 * math.pi) / 150
+# 	# if t < 150:
+# 	# 	return (50, r * math.sin(w * t))
 	
-	return (500 * math.cos(w * t), 30)
+# 	return (500 * math.cos(w * t), 30)
+
 
 
 WIDTH = 768 #1024
@@ -116,6 +154,28 @@ running = True
 dt = 0
 
 alienLock = threading.Lock()
+
+def pause(clock):
+	global running
+	pause = True
+ 
+	#Render Pause message`
+	rendering_system.renderText("PAUSED", (255, 255, 255), WIDTH, HEIGHT)
+	pygame.display.flip()
+ 
+	while pause:
+		for event in pygame.event.get():
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_p:
+					pause = False
+				if event.key == pygame.K_ESCAPE:
+					pause = False
+					running = False
+			if event.type == pygame.QUIT:
+				pause = False
+				running = False
+				
+	clock.tick()
 
 if __name__ == "__main__":
 	
@@ -139,14 +199,14 @@ if __name__ == "__main__":
 	# 						 (WIDTH / 2, 0, 0, 0), 3, enter3)
 	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
 	# 						 ( WIDTH / 2, -10, 0, 0), .5, sinMovement)
+	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
+	# 						 ( WIDTH / 2, -100, 0, 0), .5, enter_then_circle)
 	aliens_entities.add_alien(1, "sprites/enemy1.png", 
-							 ( WIDTH / 2, -100, 0, 0), .5, enter_then_circle)
-	aliens_entities.add_alien(1, "sprites/enemy1.png", 
-							 ( WIDTH / 2, 0, 0, 0), .5, enter)
-	aliens_entities.add_alien(1, "sprites/enemy1.png", 
-							 ( WIDTH / 2, 0, 0, 0), .5, oscillate)
-	aliens_entities.add_alien(1, "sprites/enemy1.png", 
-	 						 ( WIDTH / 2, -10, 0, 0), .5, circleMovement)
+							 ( WIDTH / 2, 0, 0, 0), .5, sin1)
+	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
+	# 						 ( WIDTH / 2, 0, 0, 0), .5, oscillate)
+	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
+	#  						 ( WIDTH / 2, -10, 0, 0), .5, circleMovement)
 	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
 	# 						 ( WIDTH / 2, -10, 0, 0), .5, sinMovement2)
 
@@ -171,20 +231,20 @@ if __name__ == "__main__":
 	pygame.mixer.init()
 	pygame.mixer.music.load(SOUNDTRACK)
 	pygame.mixer.music.set_volume(0.7)
-	pygame.mixer.music.play()
+	pygame.mixer.music.play(loops=-1)
 	mute = False
- 
-	#Pause
-	pause = False
  
 	#Initialize background 
 	star_system.initiateSky(star_entities)
 
 	while running and not ship_entity.input_state[0].quit:
 		frame_count += 1
-		# if frame_count == 20:
+		# if frame_count == 30:
 		# 	aliens_entities.add_alien(1, "sprites/enemy1.png", 
-		# 					 ( WIDTH / 2, -10, 0, 0), .5, sinMovement)
+		# 					 ( WIDTH / 2, 0, 0, 0), .5, sin1)
+		# if frame_count == 60:
+		# 	aliens_entities.add_alien(1, "sprites/enemy1.png", 
+		# 					 ( WIDTH / 2, 0, 0, 0), .5, sin1)
 		# if frame_count == 100:
 		# 	aliens_entities.add_alien(1, "sprites/enemy3.png", 
 		# 					 (WIDTH / 2 - 100, 0, 0, 0), 3/4, enter2)
@@ -210,13 +270,8 @@ if __name__ == "__main__":
 					else:
 						mute = True
 						pygame.mixer.music.pause()
-				if event.key == pygame.K_p:
-					if pause:
-						pause = False
-					else:
-						pause = True
-		if pause:
-			continue
+				if event.key == pygame.K_p:					
+					pause(clock)
 		
 		#SYSTEM
 		#MOVEMENT & EXPLOSION THREADS

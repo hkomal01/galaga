@@ -26,7 +26,7 @@ class Alien:
         self.cooldown = []
         self.num = 0
         
-    def add_alien(self, health, sprite, movement, cooldown, fn = None):
+    def add_alien(self, health, sprite, movement, cooldown, fn = None, px = None, py = None):
         self.health.append(comp.Health(health))
         self.sprite.append(comp.Sprite(sprite))
         self.movement.append(comp.Movement(movement[0], movement[1], 
