@@ -26,7 +26,7 @@ class RenderingSystem:
             game.SCREEN.blit(hImage, hRect)
             
     def renderText(self, message, color, xPos, yPos):
-        font = pygame.font.Font(None, 50)
+        font = pygame.font.SysFont("Press Start 2P", 50)
         goImage = font.render(message, 0, color)
         goRect = goImage.get_rect()
         goRect.x = xPos // 2 - goRect.width // 2
