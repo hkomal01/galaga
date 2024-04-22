@@ -3,7 +3,7 @@ import c_components
 import pygame
 
 class CollisionSystem:
-    def checkAlienCollision(self, shipBullet_entity, alien_entity, explosion_entity, alienLock): 
+    def checkAlienCollision(self, ship_entity, shipBullet_entity, alien_entity, explosion_entity, alienLock): 
         
         deleteShipBullets = [] 
         
@@ -31,6 +31,7 @@ class CollisionSystem:
                     del alien_entity.movement[i]
                     del alien_entity.cooldown[i]
                     alien_entity.num -= 1
+                    ship_entity.points[0].update()
             
         for p in deleteShipBullets[::-1]:
             del shipBullet_entity.movement[p]
@@ -86,3 +87,4 @@ class CollisionSystem:
                 del alien_entity.movement[i]
                 del alien_entity.cooldown[i]
                 alien_entity.num -= 1
+                ship_entity.points[0].update()

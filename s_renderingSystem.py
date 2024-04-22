@@ -16,6 +16,7 @@ class RenderingSystem:
             pygame.draw.rect(game.SCREEN, "red", pygame.Rect(mov.position.x, mov.position.y, 5, 15))
 
     def renderHud(self, ship_entity):
+        #Render health
         health = ship_entity.health[0].health
         for i in range(min(health, 10)):
             hImage = pygame.transform.scale(ship_entity.sprite[0].image, 

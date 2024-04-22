@@ -1,4 +1,5 @@
 import pygame
+import random
 import game
 
 class Health:
@@ -46,9 +47,19 @@ class Movement:
 
 class CoolDown:
     def __init__(self, cooldown_time):
-        self.cooldownValue = 0
+        self.cooldownValue = cooldown_time
         self.cooldownTime = cooldown_time
         
 class Size:
     def __init__(self, width, height):
         self.size = (width, height)
+        
+class Points:
+    def __init__(self):
+        self.points = 0
+        
+    def update(self):
+        std_dev = (120 - 100) / 3
+        num = round(random.gauss(100, std_dev))
+        num = max(min(num, 120), 80)
+        self.points += num

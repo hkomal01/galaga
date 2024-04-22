@@ -13,103 +13,80 @@ import time
 import threading
 import math
 
-# def sinMovement(t):
-# 	amplitude = 500 # Increase this for higher amplitude
-# 	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-# 	if t > 5 and t < 10:
-# 		return (amplitude * math.sin(t * frequency), 20*t, 0)
-# 	else:
-# 		return (amplitude * math.sin(t * frequency), 20*t, 5)
+def enter(move):
+	t = move.t
+	y = 20*t
+	x = (300 * math.sin(t * (1 / (2 * math.pi))) + move.vx)
+	if y > move.vy:
+		move.fn = stay
+		return stay(move)
+	return (x, y, 5)
 
-# def sinMovement2(t):
-# 	amplitude = 500 # Increase this for higher amplitude
-# 	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-# 	return (amplitude * math.sin(t * frequency), 20*t, 5)
+def stay(move):
+	return (move.position.x, move.position.y, 0)
 
-# def sinMovement3(t):
-# 	amplitude = 500 # Increase this for higher amplitude
-# 	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-# 	if t < 1:
-# 		return (amplitude * math.sin((t - 0 * math.pi / 2) * frequency), 20*t, 1)
-	
-# 	return (amplitude * math.sin((t - 0 * math.pi / 2) * frequency), 20*t, 5)
+def enter_rev(move):
+	t = move.t
+	amplitude = 300 # Increase this for higher amplitude
+	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
+	# if t > 10:
+	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
+	# else:
+	if 20*t < (200):
+		move.fn = enter
+		return enter(move)
+	return (amplitude * math.sin(t * frequency) + 354, 20*t, -5)
 
-# def move2(t):
-# 	return (1000 * math.sin(t), 30)
+def cornerguy(move):
+	t = move.t
+	return (WIDTH - move.vx, 50 * math.sin(t) + 100, 1)
 
-# def circleMovement(move):
-# 	t = move.t
-# 	return (100 * math.cos(t) + 354, 100 * math.sin(t) + 512, 1)
+def sintoside(move):
+	t = move.t
+	x = 200 * math.sin((t) * (1 / (2 * math.pi) )) + 450
+	y = 20*t
+	if y > (HEIGHT - 500):
+		move.fn = side
+		move.px = x
+		move.py = y
+		move.t = math.asin((x - 354) / 300) 
+		return (x, y, 1)
+	return (x, y, 7)
 
-# def oscillate(move):
-# 	t = move.t
-# 	return (300 * math.cos(t) + 354, 100, 1)
+def side(move):
+	t = move.t
+	x = 300 * math.sin(t) + 354
+	y = move.py
+	return (x, y, 1)
 
-# def enter_then_circle(move):
-# 	t = move.t
-# 	amplitude = 300 # Increase this for higher amplitude
-# 	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-# 	# if t > 10:
-# 	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
-# 	# else:
-# 	if (amplitude * frequency * math.cos(t * frequency)) == 0:
-# 		move.fn = enter_rev
-# 		return enter_rev(move)
-# 	return (amplitude * math.sin(t * frequency) + 354, 20*t, 5)
+def sin(move):
+	t = move.t
+	x = 200 * math.sin((t) * (1 / (2 * math.pi) )) + 250
+	y = 20*t
+	return (x, y, 7)
 
-# # Constant rotation time (period and radius parameterized by rot time)
-# def enter(move):
-# 	t = move.t
-# 	amplitude = 300 # Increase this for higher amplitude
-# 	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-# 	# if t > 10:
-# 	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
-# 	# else:
-# 	if 20*t > (HEIGHT - 200):
-# 		move.fn = stay(move)
-# 		return enter_rev(move)
-# 	return (amplitude * math.sin(t * frequency) + 354, 20*t, 5)
-
-# def stay(move):
-# 	return (move.x, move.y, 0)
-
-# def enter_rev(move):
-# 	t = move.t
-# 	amplitude = 300 # Increase this for higher amplitude
-# 	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-# 	# if t > 10:
-# 	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
-# 	# else:
-# 	if 20*t < (200):
-# 		move.fn = enter
-# 		return enter(move)
-# 	return (amplitude * math.sin(t * frequency) + 354, 20*t, -5)
-
-# Constant radius. 
 def sin1(move):
 	t = move.t
-	x = 300 * math.sin((t) * (1 / (2 * math.pi) )) + 354
+	x = 200 * math.sin((t) * (1 / (2 * math.pi) )) + 354
 	y = 20*t
-	print(x, y)
 	if y > (HEIGHT - 600):
-		print("FUNCTION IS CHANGING!")
 		move.fn = sidetoside
 		move.px = x
 		move.py = y
-		# a * sin(x) + b
-		# arcsin((x - b) / )
 		move.t = math.asin((x - 354) / 300) 
-		print("px, py: ", move.px, move.py)
-		print()
-		#move.t = t
 		return (x, y, 1)
 	return (x, y, 7)
+
+def infinity(move):
+	t = move.t
+	x = 354 * (math.sin(t) / (1 + math.cos(t)**2)) + 400
+	y = 200 * (math.cos(t)*math.sin(t) / (1 + math.cos(t)**2)) + 200
+	return (x, y, 3)
 
 def sidetoside(move):
 	t = move.t
 	x = 300 * math.sin(t) + 354
 	y = move.py
-	print("Current pos", x, y) 
 	if np.isclose(x, move.px, .01):
 		move.fn = sin2
 		move.py = y
@@ -123,29 +100,21 @@ def sin2(move):
 	t = move.t
 	x = 300 * math.sin((t) * (1 / (2 * math.pi) )) + 354
 	y = 20*(t + 1.5) + move.py
-	print("SIN2", x, y)
 	return (x, y, 7)
 
-# # Constant radius. 
-# def enter3(t):
-# 	r = 600
-# 	w = (2 * math.pi) / 150
-# 	# if t < 150:
-# 	# 	return (50, r * math.sin(w * t))
-	
-# 	return (500 * math.cos(w * t), 30)
 
 
 
 WIDTH = 768 #1024
 HEIGHT = 1024 #768
-SHIPBASEHEALTH = 101010
+SHIPBASEHEALTH = 3
 SHIP_SPRITE = "sprites/ship.png"
 SOUNDTRACK = "sounds/soundtrack8bit.mp3"
 KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE, pygame.K_p]
 MOVEMENT = [WIDTH / 2, (HEIGHT / 6) *5, 300, 0]
 COOLDOWN = 0.18
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+FRAMEEND = 3600
 
 clock = pygame.time.Clock()
 pygame.font.init()
@@ -176,6 +145,21 @@ def pause(clock):
 				running = False
 				
 	clock.tick()
+ 
+def endGame(aliens_entities, explosion_entities):
+    
+    for i in range(aliens_entities.num-1, -1, -1):
+                movement = aliens_entities.movement[i]
+                explosion_entities.add_explosion((movement.position.x, movement.position.y, 0, 0))
+                del aliens_entities.health[i]
+                del aliens_entities.sprite[i]
+                del aliens_entities.movement[i]
+                del aliens_entities.cooldown[i]
+                aliens_entities.num -= 1           
+    
+    return
+	
+    
 
 if __name__ == "__main__":
 	
@@ -187,31 +171,7 @@ if __name__ == "__main__":
 	shipBullet_entity = e_entity.ShipBullet()
 	
 	aliens_entities = e_entity.Alien()
-	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
-	# 					     (1 * WIDTH / 6, HEIGHT / 2, 0, -0), 1)
-	# aliens_entities.add_alien(1, "sprites/enemy2.png", 
-	# 					     (2 * WIDTH / 6, HEIGHT / 2, 0, 0), 1.5)
-	# aliens_entities.add_alien(1, "sprites/enemy3.png", 
-	# 					     (2.5 * WIDTH / 6, HEIGHT/2, 0, 0), .5)
-	# aliens_entities.add_alien(1, "sprites/enemy2.png", 
-	# 						 (1 * WIDTH / 4, (HEIGHT / 6) * 5 - 10, 0, 0), 3)
-	# aliens_entities.add_alien(1, "sprites/enemy3.png", 
-	# 						 (WIDTH / 2, 0, 0, 0), 3, enter3)
-	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
-	# 						 ( WIDTH / 2, -10, 0, 0), .5, sinMovement)
-	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
-	# 						 ( WIDTH / 2, -100, 0, 0), .5, enter_then_circle)
-	aliens_entities.add_alien(1, "sprites/enemy1.png", 
-							 ( WIDTH / 2, 0, 0, 0), .5, sin1)
-	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
-	# 						 ( WIDTH / 2, 0, 0, 0), .5, oscillate)
-	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
-	#  						 ( WIDTH / 2, -10, 0, 0), .5, circleMovement)
-	# aliens_entities.add_alien(1, "sprites/enemy1.png", 
-	# 						 ( WIDTH / 2, -10, 0, 0), .5, sinMovement2)
 
-	# aliens_entities.add_alien(1, "sprites/enemy2.png", 
-	#  						 (5 * WIDTH / 6, HEIGHT / 2, 1, -1), 2, circleMovement)
 	alienBullet_entity = e_entity.AlienBullet()
 	
 	explosion_entities = e_entity.Explosion()
@@ -237,26 +197,45 @@ if __name__ == "__main__":
 	#Initialize background 
 	star_system.initiateSky(star_entities)
 
+
+
 	while running and not ship_entity.input_state[0].quit:
 		frame_count += 1
-		# if frame_count == 30:
-		# 	aliens_entities.add_alien(1, "sprites/enemy1.png", 
-		# 					 ( WIDTH / 2, 0, 0, 0), .5, sin1)
-		# if frame_count == 60:
-		# 	aliens_entities.add_alien(1, "sprites/enemy1.png", 
-		# 					 ( WIDTH / 2, 0, 0, 0), .5, sin1)
-		# if frame_count == 100:
-		# 	aliens_entities.add_alien(1, "sprites/enemy3.png", 
-		# 					 (WIDTH / 2 - 100, 0, 0, 0), 3/4, enter2)
-		# if frame_count == 200:
-		# 	aliens_entities.add_alien(1, "sprites/enemy3.png", 
-		# 					 (WIDTH / 2 + 100, 0, 0, 0), 3/4, enter2)
-		# if frame_count == 300:
-		# 	aliens_entities.add_alien(1, "sprites/enemy3.png", 
-		# 					 (WIDTH / 2 - 200, 0, 0, 0), 3/4, enter2)
-		# if frame_count == 400:
-		# 	aliens_entities.add_alien(1, "sprites/enemy3.png", 
-		# 					 (WIDTH / 2 + 200, 0, 0, 0), 3/4, enter2)
+  
+		#End game
+		if frame_count >= FRAMEEND:
+			endGame(aliens_entities, explosion_entities)
+   
+		#Spawn aliens
+		else:
+			if frame_count < 500:
+				if frame_count % 200 == 0:
+					aliens_entities.add_alien(1, "sprites/enemy3.png", 
+								(300, 0, 300, (frame_count/200 * 100) + 300), 1, enter)				
+					aliens_entities.add_alien(1, "sprites/enemy3.png", 
+								(400, 0, 400, (frame_count/200 * 100) + 300), 1.2, enter)
+					aliens_entities.add_alien(1, "sprites/enemy3.png", 
+								(200, 0, 500, (frame_count/200 * 100) + 300), 1.5, enter)
+
+			if frame_count > 600:
+				if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60:
+					aliens_entities.add_alien(1, "sprites/enemy1.png", 
+									( WIDTH / 2, 0, 0, 0), .5, sin1)
+				if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60:
+					aliens_entities.add_alien(1, "sprites/enemy1.png", 
+									( WIDTH / 4, 0, 0, 0), .5, sin)
+				if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60:
+					aliens_entities.add_alien(1, "sprites/enemy2.png", 
+									( WIDTH / 2, 0, 0, 0), .5, sintoside)
+			if frame_count == 0:
+				aliens_entities.add_alien(1, "sprites/enemy3.png", 
+								( WIDTH / 2, 0, 0, 0), .5, infinity)
+				aliens_entities.add_alien(1, "sprites/enemy3.png", 
+								( WIDTH / 2, 0, 35, 0), 1, cornerguy)
+				aliens_entities.add_alien(1, "sprites/enemy3.png", 
+								( WIDTH / 2, 0, WIDTH - 35, 0), 1, cornerguy)
+		
+		
 
 		#Poll for events QUIT, MUTE, and PAUSE
 		for event in pygame.event.get():
@@ -308,7 +287,8 @@ if __name__ == "__main__":
 			  											alienLock)))
 		threads2.append(threading.Thread(target=
 								   collision_system.checkAlienCollision,
-										args = (shipBullet_entity, 
+										args = (ship_entity,
+                  									shipBullet_entity, 
 													aliens_entities, 
 													explosion_entities,
 			 										alienLock)))
@@ -338,9 +318,6 @@ if __name__ == "__main__":
 			threads3.append(threading.Thread(target=rendering_system.render,
 		  						args = (ship_entity.movement[0], 
 				 						ship_entity.sprite[0])))
-		else:
-			threads3.append(threading.Thread(target=rendering_system.renderText,
-								args = ("GAME OVER", (255, 0, 0), WIDTH, HEIGHT)))
 		
 		for i in range(aliens_entities.num):
 			threads3.append(threading.Thread(target=rendering_system.render,
@@ -361,6 +338,18 @@ if __name__ == "__main__":
 
 		#Render HUD
 		rendering_system.renderHud(ship_entity)
+		points = ship_entity.points[0].points
+		if frame_count >= FRAMEEND and ship_entity.health[0].health > 0:
+			rendering_system.renderText(f"UNIVERSE SAVED", 
+ 									(255, 255, 0), WIDTH, HEIGHT * 0.9)
+			rendering_system.renderText(f"Points: {points}", 
+ 									(255, 255, 255), WIDTH, HEIGHT * 1.1)
+		else:
+			rendering_system.renderText(f"Points: {points}", 
+ 									(255, 255, 255), WIDTH * 1.7, HEIGHT * 0.07)
+   
+		if ship_entity.health[0].health <= 0:
+			rendering_system.renderText("GAME OVER", (255, 0, 0), WIDTH, HEIGHT)
 
 		# flip() the display to put your work on screen
 		pygame.display.flip()

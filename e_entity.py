@@ -17,6 +17,7 @@ class Ship:
             self.movement = [comp.Movement(movement[0], movement[1], 
                                            movement[2], movement[3])]
             self.cooldown = [comp.CoolDown(cooldown)]
+            self.points = [comp.Points()]
 
 class Alien:
     def __init__(self):
