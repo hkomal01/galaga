@@ -15,7 +15,7 @@ class AlienMovement:
                 move.position.x += dt * move.px
                 move.position.y += dt * move.py
             if aliens_entities.cooldown[i].cooldownValue <= 0:
-                alienBullet_entity.add_alienBullet((move.position.x, move.position.y, 0, 800))
+                alienBullet_entity.add_alienBullet((move.position.x, move.position.y, 0, 600))
                 aliens_entities.cooldown[i].cooldownValue = aliens_entities.cooldown[i].cooldownTime
             aliens_entities.cooldown[i].cooldownValue -= dt
 
