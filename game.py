@@ -20,9 +20,9 @@ SHIP_SPRITE = "sprites/ship.png"
 SOUNDTRACK = "sounds/soundtrack8bit.mp3"
 KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE, pygame.K_p]
 MOVEMENT = [WIDTH / 2, (HEIGHT / 6) *5, 450, 0]
-COOLDOWN = 0.18
+COOLDOWN = 0.3
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
-FRAMEEND = 360
+FRAMEEND = 3600
 
 def enter(move):
 	t = move.t
@@ -195,8 +195,7 @@ def main():
 
 
 	while running and not ship_entity.input_state[0].quit:
-		frame_count += 1
-  
+		frame_count += 1 
 		
 		if ship_entity.health[0].health > 0:
 			#End game (Explode aliens)
@@ -348,13 +347,21 @@ def main():
 		#Render HUD
 		rendering_system.renderHud(ship_entity)
 		points = ship_entity.points[0].points
-		if frame_count >= FRAMEEND and ship_entity.health[0].health > 0:
+		health = ship_entity.health[0].health
+		if frame_count >= FRAMEEND and health > 0:
+			points += 2000 + (health * 500)
 			rendering_system.renderText(f"UNIVERSE SAVED", 
  									(255, 255, 0), WIDTH, HEIGHT * 0.9)
-			rendering_system.renderText(f"(+2000 pts)", 
+			rendering_system.renderText(f"+2000 pts - Saved Universe", 
  									(255, 255, 0), WIDTH, HEIGHT)
-			rendering_system.renderText(f"Points: {points + 2000}", 
- 									(255, 255, 255), WIDTH, HEIGHT * 1.1)
+			if health == 1:
+				rendering_system.renderText(f"+{health * 500} pts - 1 life left", 
+ 									(255, 255, 0), WIDTH, HEIGHT * 1.1)
+			else:
+				rendering_system.renderText(f"+{health * 500} pts - {health} lives left", 
+ 									(255, 255, 0), WIDTH, HEIGHT * 1.1)
+			rendering_system.renderText(f"Points: {points}", 
+ 									(255, 255, 255), WIDTH, HEIGHT * 1.2)
 		else:
 			rendering_system.renderText(f"Points: {points}", 
  									(255, 255, 255), WIDTH * 1.7, HEIGHT * 0.07)
