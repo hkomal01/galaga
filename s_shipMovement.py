@@ -22,6 +22,9 @@ class ShipMovement:
         if ship_entity.input_state[0].shoot and ship_entity.cooldown[0].cooldownValue <= 0:
             shipBullet_entity.add_shipBullet((player_pos.x, player_pos.y, 0, -1200))
             ship_entity.cooldown[0].cooldownValue = ship_entity.cooldown[0].cooldownTime
+            gun_sound = pygame.mixer.Sound("sounds/playerGun.mp3")
+            pygame.mixer.Sound.play(gun_sound)
+
         
         ship_entity.cooldown[0].cooldownValue -= dt
         ship_entity.input_state[0].update()

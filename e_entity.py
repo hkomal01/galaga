@@ -31,7 +31,7 @@ class Alien:
         self.health.append(comp.Health(health))
         self.sprite.append(comp.Sprite(sprite))
         self.movement.append(comp.Movement(movement[0], movement[1], 
-                                           movement[2], movement[3], fn))
+                                           movement[2], movement[3], fn, px, py))
         self.cooldown.append(comp.CoolDown(cooldown))
         self.num += 1
 
