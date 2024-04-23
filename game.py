@@ -139,16 +139,15 @@ def pause(clock, rendering_system):
 	clock.tick()
  
 def endGame(aliens_entities, explosion_entities):
-    for i in range(aliens_entities.num-1, -1, -1):
-                movement = aliens_entities.movement[i]
-                explosion_entities.add_explosion((movement.position.x, movement.position.y, 0, 0))
-                del aliens_entities.health[i]
-                del aliens_entities.sprite[i]
-                del aliens_entities.movement[i]
-                del aliens_entities.cooldown[i]
-                aliens_entities.num -= 1           
-    
-    return
+	for i in range(aliens_entities.num-1, -1, -1):
+		movement = aliens_entities.movement[i]
+		explosion_entities.add_explosion((movement.position.x, movement.position.y, 0, 0))
+		del aliens_entities.health[i]
+		del aliens_entities.sprite[i]
+		del aliens_entities.movement[i]
+		del aliens_entities.cooldown[i]
+		aliens_entities.num -= 1           
+	return
 	
 def main():
     #Initiate variables
@@ -414,4 +413,4 @@ def main():
 if __name__ == "__main__":
 	gameState = True
 	while gameState:
- 		gameState = main()
+		gameState = main()
