@@ -15,7 +15,7 @@ import math
 
 WIDTH = 768 #1024
 HEIGHT = 1024 #768
-SHIPBASEHEALTH = 125
+SHIPBASEHEALTH = 3
 SHIP_SPRITE = "sprites/ship.png"
 SOUNDTRACK = "sounds/soundtrack8bit.mp3"
 KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE, pygame.K_p]
@@ -30,7 +30,6 @@ def enter(move):
 	sign = move.px
 	x = (sign * 300 * math.sin(t * (1 / (2 * math.pi))) + move.vx)
 	if y >= move.vy:
-		print(f"vy is {move.vy} and we're staying at {move}")
 		move.fn = stay
 		return stay(move)
 	return (x, y, 5)
