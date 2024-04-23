@@ -15,7 +15,7 @@ import math
 
 WIDTH = 768 #1024
 HEIGHT = 1024 #768
-SHIPBASEHEALTH = 3
+SHIPBASEHEALTH = 125
 SHIP_SPRITE = "sprites/ship.png"
 SOUNDTRACK = "sounds/soundtrack8bit.mp3"
 KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE, pygame.K_p]
@@ -29,7 +29,7 @@ def enter(move):
 	y = 20*t
 	sign = move.px
 	x = (sign * 300 * math.sin(t * (1 / (2 * math.pi))) + move.vx)
-	if y > move.vy:
+	if y >= move.vy:
 		move.fn = stay
 		return stay(move)
 	return (x, y, 5)
@@ -194,6 +194,7 @@ def main():
 	star_system.initiateSky(star_entities)
 	right = True
 	swap = True
+	i = 0
 
 
 
@@ -226,34 +227,37 @@ def main():
 										(200, 0, 500, (frame_count/200 * 100) + 300), 1.75, enter, px=-1)
 							right = True
 				if frame_count > 600:
-					if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60 and swap:
-						aliens_entities.add_alien(1, "sprites/enemy1.png", 
-										( WIDTH / 2, 0, 0, 0), 1.5, sin1)
-					if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60 and swap:
-						aliens_entities.add_alien(1, "sprites/enemy1.png", 
-										( WIDTH / 4, 0, 0, 0), 1.5, sin)
-					if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60 and swap:
-						aliens_entities.add_alien(1, "sprites/enemy2.png", 
-										( WIDTH / 2, 0, 0, 0), 1.5, sintoside)
-						swap = False
-					if frame_count % 200 == 0 and not swap:
+					if swap:
+						if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60 and swap:
+							aliens_entities.add_alien(1, "sprites/enemy1.png", 
+											( WIDTH / 2, 0, 0, 0), 1.5, sin1)
+						if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60 and swap:
+							aliens_entities.add_alien(1, "sprites/enemy1.png", 
+											( WIDTH / 4, 0, 0, 0), 1.5, sin)
+						if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60 and swap:
+							aliens_entities.add_alien(1, "sprites/enemy2.png", 
+											( WIDTH / 2, 0, 0, 0), 1.5, sintoside)
+						if frame_count % 600 == 0:
+							swap = False
+					elif frame_count % 200 == 0 and not swap:
 						if right:
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(300, 0, 300, (frame_count/200 * 100) + 300), 2, enter, px=1)				
+										(0, 0, 300, 300 - i), 2, enter, px=1)				
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(400, 0, 400, (frame_count/200 * 100) + 300), 1.5, enter, px=1)
+										(0, 0, 400, 300 - i), 1.5, enter, px=1)
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(200, 0, 500, (frame_count/200 * 100) + 300), 1.75, enter, px=1)
+										(0, 0, 500, 300 - i), 1.75, enter, px=1)
 							right = False
 						else: 
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(300, 0, 300, (frame_count/200 * 100) + 300), 2, enter, px=-1)				
+										(0, 0, 300, 300 - i), 2, enter, px=-1)				
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(400, 0, 400, (frame_count/200 * 100) + 300), 1.5, enter, px=-1)
+										(0, 0, 400, 300 - i), 1.5, enter, px=-1)
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(200, 0, 500, (frame_count/200 * 100) + 300), 1.75, enter, px=-1)
+										(0, 0, 500, 300 - i), 1.75, enter, px=-1)
 							right = True
-						if frame_count % 600 == 0:
+						if frame_count % 600 == 0 and not swap:
+							i += 50
 							swap = True
 				#Starters
 				if frame_count == 0:
