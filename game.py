@@ -30,6 +30,7 @@ def enter(move):
 	sign = move.px
 	x = (sign * 300 * math.sin(t * (1 / (2 * math.pi))) + move.vx)
 	if y >= move.vy:
+		print(f"vy is {move.vy} and we're staying at {move}")
 		move.fn = stay
 		return stay(move)
 	return (x, y, 5)
@@ -194,7 +195,7 @@ def main():
 	star_system.initiateSky(star_entities)
 	right = True
 	swap = True
-	i = 0
+	offset = 0
 
 
 
@@ -212,19 +213,19 @@ def main():
 					if frame_count % 200 == 0:
 						if right:
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(300, 0, 300, (frame_count/200 * 100) + 300), 2, enter, px=1)				
+										(300, 0, 300, (frame_count/200 * 100) + 300), 3, enter, px=1)				
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(400, 0, 400, (frame_count/200 * 100) + 300), 1.5, enter, px=1)
+										(400, 0, 400, (frame_count/200 * 100) + 300), 3.25, enter, px=1)
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(200, 0, 500, (frame_count/200 * 100) + 300), 1.75, enter, px=1)
+										(200, 0, 500, (frame_count/200 * 100) + 300), 3.5, enter, px=1)
 							right = False
 						else: 
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(300, 0, 300, (frame_count/200 * 100) + 300), 2, enter, px=-1)				
+										(300, 0, 300, (frame_count/200 * 100) + 300), 3, enter, px=-1)				
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(400, 0, 400, (frame_count/200 * 100) + 300), 1.5, enter, px=-1)
+										(400, 0, 400, (frame_count/200 * 100) + 300), 3.25, enter, px=-1)
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(200, 0, 500, (frame_count/200 * 100) + 300), 1.75, enter, px=-1)
+										(200, 0, 500, (frame_count/200 * 100) + 300), 3.5, enter, px=-1)
 							right = True
 				if frame_count > 600:
 					if swap:
@@ -242,35 +243,36 @@ def main():
 					elif frame_count % 200 == 0 and not swap:
 						if right:
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(0, 0, 300, 300 - i), 2, enter, px=1)				
+										(0, 0, 300, 300 + offset), 2, enter, px=1)				
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(0, 0, 400, 300 - i), 1.5, enter, px=1)
+										(0, 0, 400, 300 + offset), 1.5, enter, px=1)
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(0, 0, 500, 300 - i), 1.75, enter, px=1)
+										(0, 0, 500, 300 + offset), 1.75, enter, px=1)
 							right = False
 						else: 
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(0, 0, 300, 300 - i), 2, enter, px=-1)				
+										(0, 0, 300, 300 + offset), 2, enter, px=-1)				
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(0, 0, 400, 300 - i), 1.5, enter, px=-1)
+										(0, 0, 400, 300 + offset), 1.5, enter, px=-1)
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(0, 0, 500, 300 - i), 1.75, enter, px=-1)
+										(0, 0, 500, 300 + offset), 1.75, enter, px=-1)
 							right = True
+						offset += 100
+						offset %= 300
 						if frame_count % 600 == 0 and not swap:
-							i += 50
 							swap = True
 				#Starters
 				if frame_count == 0:
 					aliens_entities.add_alien(1, "sprites/enemy1.png", 
-									( WIDTH / 2, 0, 0, 0), .5, infinity, px=2 * math.pi/3)
+									( WIDTH / 2, 0, 0, 0), 2, infinity, px=2 * math.pi/3)
 					aliens_entities.add_alien(1, "sprites/enemy2.png", 
-									( WIDTH / 2, 0, 0, 0), .75, infinity, px= 4 * math.pi/3)
+									( WIDTH / 2, 0, 0, 0), 3, infinity, px= 4 * math.pi/3)
 					aliens_entities.add_alien(1, "sprites/enemy3.png", 
-									( WIDTH / 2, 0, 0, 0), 1, infinity, px=0)
+									( WIDTH / 2, 0, 0, 0), 4, infinity, px=0)
 					aliens_entities.add_alien(1, "sprites/enemy3.png", 
-									( WIDTH / 2, 0, 35, 0), 1, cornerguy)
+									( WIDTH / 2, 0, 35, 0), 3, cornerguy)
 					aliens_entities.add_alien(1, "sprites/enemy3.png", 
-									( WIDTH / 2, 0, WIDTH - 35, 0), 1, cornerguy)
+									( WIDTH / 2, 0, WIDTH - 35, 0), 3, cornerguy)
 		
 		
 
