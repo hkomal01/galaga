@@ -13,14 +13,31 @@ class Health:
         self.health = initHealth
 
 class Sprite:
+    """
+    Represents a sprite object in the game.
+
+    Attributes:
+        image (pygame.Surface): The image of the sprite.
+        rect (pygame.Rect): The rectangular properties of the image.
+
+    Methods:
+        update(self, pos): Updates the position of the sprite.
+    """
+
     def __init__(self, image):
         self.image = pygame.image.load(image).convert_alpha()
         self.image = pygame.transform.scale(self.image, 
                                             (self.image.get_width() 
                                              * 3, self.image.get_height()*3))
-        self.rect = self.image.get_rect() # Retangular properties of the image
+        self.rect = self.image.get_rect()
 
     def update(self, pos):
+        """
+        Updates the position of the sprite.
+
+        Args:
+            pos (tuple): The new position of the sprite as a tuple (x, y).
+        """
         self.rect.center = pos
 
 class Input_State:
