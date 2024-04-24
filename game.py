@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import pygame
 import numpy as np
 import copy
@@ -20,7 +22,7 @@ SHIP_SPRITE = "sprites/ship.png"
 SOUNDTRACK = "sounds/soundtrack8bit.mp3"
 KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE, pygame.K_p]
 MOVEMENT = [WIDTH / 2, (HEIGHT / 6) *5, 450, 0]
-COOLDOWN = 0.3
+COOLDOWN = 0.5
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 FRAMEEND = 3600
 
