@@ -194,6 +194,7 @@ def main():
 	right = True
 	swap = True
 	offset = 0
+	held = 0
 
 
 
@@ -278,6 +279,13 @@ def main():
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_r:
+					held += 1
+					if held >= 2:
+						return False
+				else:
+					held = 0	
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_m:
 					if mute:
@@ -287,7 +295,7 @@ def main():
 						mute = True
 						pygame.mixer.music.pause()
 				if event.key == pygame.K_p and ship_entity.health[0].health > 0 and frame_count < FRAMEEND:					
-					pause(clock, rendering_system)
+					pause(clock, rendering_system)	
 				if event.key == pygame.K_r and (frame_count >= FRAMEEND or ship_entity.health[0].health <= 0):
 					return True
 		
