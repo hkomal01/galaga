@@ -283,7 +283,7 @@ def main():
 				if event.key == pygame.K_r:
 					held += 1
 					if held >= 2:
-						return False
+						return True
 				else:
 					held = 0	
 			if event.type == pygame.KEYUP:
