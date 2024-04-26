@@ -4,8 +4,20 @@ import game
 import copy
 
 class ShipMovement:
+    """
+    This class handles the movement of the ship and ship bullets in the game.
+    """
+
     def moveShip(self, dt, ship_entity, shipBullet_entity):      
-        #Ship dead
+        """
+        Moves the ship based on user input and updates the ship's cooldown.
+
+        Args:
+            dt (float): The time elapsed since the last frame.
+            ship_entity (ShipEntity): The ship entity object.
+            shipBullet_entity (ShipBulletEntity): The ship bullet entity object.
+        """
+        # Ship dead
         if (ship_entity.health[0].health <= 0):
             ship_entity.input_state[0].update()
             return
@@ -30,8 +42,14 @@ class ShipMovement:
         ship_entity.input_state[0].update()
         
     def moveShipBullets(self, dt, shipBullet_entity):
-        
-        #Bullet Movement & deletion
+        """
+        Moves the ship bullets and removes bullets that are off-screen.
+
+        Args:
+            dt (float): The time elapsed since the last frame.
+            shipBullet_entity (ShipBulletEntity): The ship bullet entity object.
+        """
+        # Bullet Movement & deletion
         for mov in shipBullet_entity.movement:
             mov.position.y += mov.vy * dt
             # Remove bullets that are off-screen

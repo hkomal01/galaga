@@ -5,8 +5,17 @@ import copy
 import random
 
 class Stars:
-    
+    """
+    Represents a collection of stars in a sky.
+    """
+
     def initiateSky(self, star_entity):
+        """
+        Initializes the sky with a random set of stars.
+
+        Args:
+            star_entity: The entity representing the stars in the game.
+        """
         for i in range(0, 300):
             width = random.randrange(1, 4)
             height = width
@@ -17,6 +26,12 @@ class Stars:
             star_entity.add_star([width, height], movement)
     
     def createStar(self, star_entity):
+        """
+        Creates a single star at the top of the screen.
+
+        Args:
+            star_entity: The entity representing the stars in the game.
+        """
         width = random.randrange(1, 4)
         height = width
         x = random.randrange(0, game.WIDTH) 
@@ -26,6 +41,13 @@ class Stars:
         star_entity.add_star([width, height], movement)
         
     def moveStar(self, dt, star_entity):
+        """
+        Moves the stars downwards based on the elapsed time.
+
+        Args:
+            dt: The elapsed time since the last frame.
+            star_entity: The entity representing the stars in the game.
+        """
         starsForDeletion = []
         
         for i, move in enumerate(star_entity.movement):

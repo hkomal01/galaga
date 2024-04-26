@@ -15,16 +15,16 @@ import time
 import threading
 import math
 
-WIDTH = 768 #1024
-HEIGHT = 1024 #768
+WIDTH = 768		# Screen width
+HEIGHT = 1024	# Screen height
 SHIPBASEHEALTH = 3
 SHIP_SPRITE = "sprites/ship.png"
 SOUNDTRACK = "sounds/soundtrack8bit.mp3"
 KEYS = [pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_ESCAPE, pygame.K_p]
-MOVEMENT = [WIDTH / 2, (HEIGHT / 6) *5, 450, 0]
-COOLDOWN = 0.5
+MOVEMENT = [WIDTH / 2, (HEIGHT / 6) *5, 450, 0] # Movement component for ship
+COOLDOWN = 0.5 # Ship bullet cooldown
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
-FRAMEEND = 3600
+FRAMEEND = 3600 # Frame the game ends on (60 frames / second)
 
 def enter(move):
 	t = move.t
@@ -38,18 +38,6 @@ def enter(move):
 
 def stay(move):
 	return (move.position.x, move.position.y, 0)
-
-def enter_rev(move):
-	t = move.t
-	amplitude = 300 # Increase this for higher amplitude
-	frequency = 1 / (2 * math.pi)  # Decrease this for lower frequency
-	# if t > 10:
-	# 	return (amplitude * math.sin(t * frequency), amplitude * math.cos(t * frequency), .5)
-	# else:
-	if 20*t < (200):
-		move.fn = enter
-		return enter(move)
-	return (amplitude * math.sin(t * frequency) + 354, 20*t, -5)
 
 def cornerguy(move):
 	t = move.t
@@ -119,13 +107,24 @@ def sin2(move):
 	return (x, y, 7)
 
 def pause(clock, rendering_system):
+	"""
+	Pauses the game and waits for user input to resume or quit.
+
+	Args:
+		clock: The game clock object.
+		rendering_system: The rendering system object.
+
+	Returns:
+		None
+	"""
 	global running
 	pause = True
- 
-	#Render Pause message`
+
+	# Render Pause message
 	rendering_system.renderText("PAUSED", (255, 255, 255), WIDTH, HEIGHT)
 	pygame.display.flip()
- 
+
+	# Check for game end or resumption
 	while pause:
 		for event in pygame.event.get():
 			if event.type == pygame.KEYUP:
@@ -137,10 +136,20 @@ def pause(clock, rendering_system):
 			if event.type == pygame.QUIT:
 				pause = False
 				running = False
-				
+
 	clock.tick()
  
 def endGame(aliens_entities, explosion_entities):
+	"""
+	Ends the game by removing all aliens and triggering explosions.
+
+	Parameters:
+	- aliens_entities (AliensEntities): The entity object containing information about the aliens.
+	- explosion_entities (ExplosionEntities): The entity object containing information about the explosions.
+
+	Returns:
+	None
+	"""
 	for i in range(aliens_entities.num-1, -1, -1):
 		movement = aliens_entities.movement[i]
 		explosion_entities.add_explosion((movement.position.x, movement.position.y, 0, 0))
@@ -148,17 +157,24 @@ def endGame(aliens_entities, explosion_entities):
 		del aliens_entities.sprite[i]
 		del aliens_entities.movement[i]
 		del aliens_entities.cooldown[i]
-		aliens_entities.num -= 1           
+		aliens_entities.num -= 1
 	return
 	
 def main():
-    #Initiate variables
+	"""
+	The main function that runs the Galaga game.
+
+	This function initializes the game, handles user input, updates the game state,
+	and renders the game on the screen. It contains the game loop that runs each frame
+	until the game is over or the user quits.
+
+	Returns:
+		bool: True if the user wants to restart the game, False otherwise.
+	"""
 	clock = pygame.time.Clock()
 	pygame.font.init()
-
 	running = True
 	dt = 0
-
 	alienLock = threading.Lock()
 	pygame.init()
 	
@@ -198,8 +214,7 @@ def main():
 	offset = 0
 	held = 0
 
-
-
+	# Game loop (runs each frame)
 	while running and not ship_entity.input_state[0].quit:
 		frame_count += 1 
 		
@@ -210,6 +225,7 @@ def main():
 	
 			#Spawn aliens
 			else:
+				# Spawn of initial nine aliens who arrive in triples
 				if frame_count < 500:
 					if frame_count % 200 == 0:
 						if right:
@@ -228,6 +244,7 @@ def main():
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
 										(200, 0, 500, (frame_count/200 * 100) + 300), 3.5, enter, px=-1)
 							right = True
+				# Alternating spawn of nine sine aliens and nine aliens in triples
 				if frame_count > 600:
 					if swap:
 						if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60 and swap:
@@ -262,7 +279,7 @@ def main():
 						offset %= 300
 						if frame_count % 600 == 0 and not swap:
 							swap = True
-				#Starters
+				# Initial five spawns
 				if frame_count == 0:
 					aliens_entities.add_alien(1, "sprites/enemy1.png", 
 									( WIDTH / 2, 0, 0, 0), 2, infinity, px=2 * math.pi/3)
@@ -389,6 +406,7 @@ def main():
 		rendering_system.renderHud(ship_entity)
 		points = ship_entity.points[0].points
 		health = ship_entity.health[0].health
+		# If player has won
 		if frame_count >= FRAMEEND and health > 0:
 			points += 2000 + (health * 500)
 			rendering_system.renderText(f"UNIVERSE SAVED", 
@@ -407,15 +425,14 @@ def main():
 			rendering_system.renderText(f"Points: {points}", 
  									(255, 255, 255), WIDTH * 1.7, HEIGHT * 0.07)
    
+		# If player has lost
 		if ship_entity.health[0].health <= 0:
 			rendering_system.renderText("GAME OVER", (255, 0, 0), WIDTH, HEIGHT)
 
 		# flip() the display to put your work on screen
 		pygame.display.flip()
 			
-		# limits FPS to 60
-		# dt is delta time in seconds since last frame, used for framerate-
-		# independent physics.
+		# limits FPS to 60 and dt is delta time in seconds since last frame (~.0167 s)
 		dt = clock.tick(60) / 1000
 
 	return False

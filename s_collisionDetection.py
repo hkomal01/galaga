@@ -3,7 +3,24 @@ import c_components
 import pygame
 
 class CollisionSystem:
+    """
+    A class that handles collision detection and resolution in the game.
+    """
+
     def checkAlienCollision(self, ship_entity, shipBullet_entity, alien_entity, explosion_entity, alienLock): 
+        """
+        Checks for collision between ship bullets and aliens, and performs necessary actions.
+
+        Args:
+            ship_entity (ShipEntity): The ship entity.
+            shipBullet_entity (ShipBulletEntity): The ship bullet entity.
+            alien_entity (AlienEntity): The alien entity.
+            explosion_entity (ExplosionEntity): The explosion entity.
+            alienLock (Lock): The lock for synchronizing access to alien entity.
+
+        Returns:
+            None
+        """
         
         deleteShipBullets = [] 
         
@@ -12,11 +29,7 @@ class CollisionSystem:
             with alienLock: 
                 for i, (alien, health) in enumerate(zip(alien_entity.sprite, alien_entity.health)):
                     bullet_rect = pygame.Rect(bullet.position.x, bullet.position.y, 5, 15)
-                    # make explosion for the alien to be true or just decrease 
-                    # the health to 0? I'm just going to do both for now and it 
-                    # may be clearer later on what to do
                     if bullet_rect.colliderect(alien.rect):
-                        # change later to DELETE BULLET RIGHT AFTER COLLIDE
                         health.health -= 1
                         deleteShipBullets.append(m)
                         if health.health == 0:
@@ -37,7 +50,17 @@ class CollisionSystem:
             del shipBullet_entity.movement[p]
 
     def checkShipCollision(self, alienBullet_entity, explosion_entity, ship_entity):
-        
+        """
+        Checks for collision between alien bullets and the ship, and performs necessary actions.
+
+        Args:
+            alienBullet_entity (AlienBulletEntity): The alien bullet entity.
+            explosion_entity (ExplosionEntity): The explosion entity.
+            ship_entity (ShipEntity): The ship entity.
+
+        Returns:
+            None
+        """
         #Ship dead
         if (ship_entity.health[0].health <= 0):
             return
@@ -60,7 +83,18 @@ class CollisionSystem:
                 del alienBullet_entity.movement[b]
                 
     def checkShipAlienCollision(self, alien_entity, explosion_entity, ship_entity, alienLock):
-        
+        """
+        Checks for collision between the ship and aliens, and performs necessary actions.
+
+        Args:
+            alien_entity (AlienEntity): The alien entity.
+            explosion_entity (ExplosionEntity): The explosion entity.
+            ship_entity (ShipEntity): The ship entity.
+            alienLock (Lock): The lock for synchronizing access to alien entity.
+
+        Returns:
+            None
+        """
         #Ship dead
         if (ship_entity.health[0].health <= 0):
             return
