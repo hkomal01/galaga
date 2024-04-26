@@ -1,0 +1,5 @@
+# Ignore _pycache_ folder
+_pyache_/
+
+# Ignore .vscode folder
+.vscode/
