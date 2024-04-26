@@ -1,5 +1,3 @@
-import e_entity
-import c_components
 import pygame
 
 class CollisionSystem:

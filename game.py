@@ -2,8 +2,6 @@
 
 import pygame
 import numpy as np
-import copy
-import c_components
 import e_entity
 import s_shipMovement
 import s_alienMovement
@@ -11,7 +9,6 @@ import s_renderingSystem
 import s_collisionDetection
 import s_explosion
 import s_stars
-import time
 import threading
 import math
 
@@ -335,6 +332,7 @@ def main():
 		threads.append(threading.Thread(target=star_system.moveStar,
 		 					args = (dt, star_entities)))
   
+		# Barrier for all movement/explosion threads to finish
 		for thread in threads:
 			thread.start()
 		for thread in threads:
@@ -343,7 +341,8 @@ def main():
 		#SYSTEM
 		#COLLISION & STAR CREATION THREADS
 		threads2 = []
-		
+
+		# Stagger ship spawn by two frames to avoid collision with aliens	
 		if frame_count > 2:	
 			threads2.append(threading.Thread(target=
 									collision_system.checkShipAlienCollision,
@@ -351,6 +350,7 @@ def main():
 														explosion_entities, 
 														ship_entity,
 			  											alienLock)))
+		# Check for collisions between ship bullets and aliens
 		threads2.append(threading.Thread(target=
 								   collision_system.checkAlienCollision,
 										args = (ship_entity,

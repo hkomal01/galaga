@@ -1,7 +1,4 @@
-import pygame
-import c_components
 import game
-import copy
 import random
 
 class Stars:
@@ -16,7 +13,7 @@ class Stars:
         Args:
             star_entity: The entity representing the stars in the game.
         """
-        for i in range(0, 300):
+        for _ in range(0, 300):
             width = random.randrange(1, 4)
             height = width
             x = random.randrange(0, game.WIDTH) 

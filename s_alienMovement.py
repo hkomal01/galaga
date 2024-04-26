@@ -1,7 +1,3 @@
-import e_entity
-import c_components
-import copy
-
 class AlienMovement:
     def moveAliens(self, dt, aliens_entities, alienBullet_entity, frame_count):
         """

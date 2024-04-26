@@ -1,7 +1,5 @@
 import pygame
-import c_components
 import game
-import copy
 
 class ShipMovement:
     """

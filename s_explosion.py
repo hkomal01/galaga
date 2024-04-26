@@ -1,6 +1,3 @@
-import e_entity
-import c_components
-
 class ExplosionSystem:
     """
     A class that represents the explosion system in the game.
