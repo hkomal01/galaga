@@ -62,3 +62,8 @@ Run:
 ```console
 python3 game.py
 ```
+If the game does not fit on your screen, try running the game with:
+```console
+python3 game.py --height 800
+```
+This will shrink the height of the window 800 pixels. 
