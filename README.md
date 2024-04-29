@@ -54,8 +54,8 @@ the game.
     frame of the explosion animation.
 ## Dependencies
 To run the game you will need:
-- Pygame
-- Numpy
+- Pygame 2.5.2
+- Numpy 1.26.4
 ## How to play
 Run:
 ```console
