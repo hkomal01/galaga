@@ -56,6 +56,7 @@ the game.
 To run the game you will need:
 - Pygame 2.5.2
 - Numpy 1.26.4
+- Python 3.11.9
 ## How to play
 Run:
 ```console
