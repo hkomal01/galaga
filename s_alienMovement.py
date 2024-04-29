@@ -5,8 +5,10 @@ class AlienMovement:
 
         Args:
             dt (float): The time step for the movement.
-            aliens_entities (AliensEntities): The entity containing the aliens' movement data.
-            alienBullet_entity (AlienBulletEntity): The entity for alien bullets.
+            aliens_entities (AliensEntities): The entity containing 
+                                              the aliens' movement data.
+            alienBullet_entity (AlienBulletEntity): The entity for 
+                                                    alien bullets.
             frame_count (int): The current frame count.
 
         Returns:
@@ -23,8 +25,10 @@ class AlienMovement:
                 move.position.y += dt * move.py
             # If alien is able to shoot again
             if aliens_entities.cooldown[i].cooldownValue <= 0:
-                alienBullet_entity.add_alienBullet((move.position.x, move.position.y, 0, 600))
-                aliens_entities.cooldown[i].cooldownValue = aliens_entities.cooldown[i].cooldownTime
+                alienBullet_entity.add_alienBullet((move.position.x, 
+                                                    move.position.y, 0, 600))
+                aliens_entities.cooldown[i].cooldownValue = \
+                                    aliens_entities.cooldown[i].cooldownTime
             aliens_entities.cooldown[i].cooldownValue -= dt
 
     def moveAlienBullets(self, dt, alienBullet_entity):
@@ -33,7 +37,8 @@ class AlienMovement:
 
         Parameters:
         - dt (float): The time step for the movement.
-        - alienBullet_entity (AlienBulletEntity): The entity containing the alien bullets.
+        - alienBullet_entity (AlienBulletEntity): The entity containing 
+                                                  the alien bullets.
 
         Returns:
         - None

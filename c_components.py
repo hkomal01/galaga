@@ -51,7 +51,8 @@ class Input_State:
         pausek (int): The key code for the pause key.
         value (tuple): A tuple representing the current state of all keys.
         left (bool): True if the left movement key is pressed, False otherwise.
-        right (bool): True if the right movement key is pressed, False otherwise.
+        right (bool): True if the right movement key is pressed, 
+                      False otherwise.
         quit (bool): True if the quit key is pressed, False otherwise.
         pause (bool): True if the pause key is pressed, False otherwise.
         shoot (bool): True if the shoot key is pressed, False otherwise.

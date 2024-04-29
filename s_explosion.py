@@ -6,7 +6,8 @@ class ExplosionSystem:
         None
         
     Methods:
-        update(explosion_entity): Updates the explosion animation for the given explosion entity.
+        update(explosion_entity): Updates the explosion animation for 
+                                  the given explosion entity.
     """
     
     def update(self, explosion_entity):

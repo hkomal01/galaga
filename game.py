@@ -141,15 +141,18 @@ def endGame(aliens_entities, explosion_entities):
 	Ends the game by removing all aliens and triggering explosions.
 
 	Parameters:
-	- aliens_entities (AliensEntities): The entity object containing information about the aliens.
-	- explosion_entities (ExplosionEntities): The entity object containing information about the explosions.
+	- aliens_entities (AliensEntities): The entity object containing 
+ 										information about the aliens.
+	- explosion_entities (ExplosionEntities): The entity object containing 
+ 											  information about the explosions.
 
 	Returns:
 	None
 	"""
 	for i in range(aliens_entities.num-1, -1, -1):
 		movement = aliens_entities.movement[i]
-		explosion_entities.add_explosion((movement.position.x, movement.position.y, 0, 0))
+		explosion_entities.add_explosion((movement.position.x, 
+                                    			movement.position.y, 0, 0))
 		del aliens_entities.health[i]
 		del aliens_entities.sprite[i]
 		del aliens_entities.movement[i]
@@ -161,9 +164,9 @@ def main():
 	"""
 	The main function that runs the Galaga game.
 
-	This function initializes the game, handles user input, updates the game state,
-	and renders the game on the screen. It contains the game loop that runs each frame
-	until the game is over or the user quits.
+	This function initializes the game, handles user input, 
+ 	updates the game state, and renders the game on the screen. It contains 
+  	the game loop that runs each frame until the game is over or the user quits.
 
 	Returns:
 		bool: True if the user wants to restart the game, False otherwise.
@@ -227,50 +230,59 @@ def main():
 					if frame_count % 200 == 0:
 						if right:
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(300, 0, 300, (frame_count/200 * 100) + 300), 3, enter, px=1)				
+								(300, 0, 300, (frame_count/200 * 100) + 300), 
+        							3, enter, px=1)				
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(400, 0, 400, (frame_count/200 * 100) + 300), 3.25, enter, px=1)
+								(400, 0, 400, (frame_count/200 * 100) + 300), 
+        							3.25, enter, px=1)
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(200, 0, 500, (frame_count/200 * 100) + 300), 3.5, enter, px=1)
+								(200, 0, 500, (frame_count/200 * 100) + 300), 
+        							3.5, enter, px=1)
 							right = False
 						else: 
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(300, 0, 300, (frame_count/200 * 100) + 300), 3, enter, px=-1)				
+								(300, 0, 300, (frame_count/200 * 100) + 300), 
+        							3, enter, px=-1)				
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(400, 0, 400, (frame_count/200 * 100) + 300), 3.25, enter, px=-1)
+								(400, 0, 400, (frame_count/200 * 100) + 300), 
+        							3.25, enter, px=-1)
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(200, 0, 500, (frame_count/200 * 100) + 300), 3.5, enter, px=-1)
+								(200, 0, 500, (frame_count/200 * 100) + 300), 
+        							3.5, enter, px=-1)
 							right = True
-				# Alternating spawn of nine sine aliens and nine aliens in triples
+				# Alternating spawn of 9 sine aliens and 9 aliens in triples
 				if frame_count > 600:
 					if swap:
-						if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60 and swap:
+						if frame_count % 600 == 20 or frame_count % 600 == 40 \
+      										or frame_count % 600 == 60 and swap:
 							aliens_entities.add_alien(1, "sprites/enemy1.png", 
-											( WIDTH / 2, 0, 0, 0), 1.5, sin1)
-						if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60 and swap:
+										( WIDTH / 2, 0, 0, 0), 1.5, sin1)
+						if frame_count % 600 == 20 or frame_count % 600 == 40 \
+      										or frame_count % 600 == 60 and swap:
 							aliens_entities.add_alien(1, "sprites/enemy1.png", 
-											( WIDTH / 4, 0, 0, 0), 1.5, sin)
-						if frame_count % 600 == 20 or frame_count % 600 == 40 or frame_count % 600 == 60 and swap:
+										( WIDTH / 4, 0, 0, 0), 1.5, sin)
+						if frame_count % 600 == 20 or frame_count % 600 == 40 \
+      										or frame_count % 600 == 60 and swap:
 							aliens_entities.add_alien(1, "sprites/enemy2.png", 
-											( WIDTH / 2, 0, 0, 0), 1.5, sintoside)
+										( WIDTH / 2, 0, 0, 0), 1.5, sintoside)
 						if frame_count % 600 == 0:
 							swap = False
 					elif frame_count % 200 == 0 and not swap:
 						if right:
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(0, 0, 300, 300 + offset), 2, enter, px=1)				
+								(0, 0, 300, 300 + offset), 2, enter, px=1)
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(0, 0, 400, 300 + offset), 1.5, enter, px=1)
+								(0, 0, 400, 300 + offset), 1.5, enter, px=1)
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(0, 0, 500, 300 + offset), 1.75, enter, px=1)
+								(0, 0, 500, 300 + offset), 1.75, enter, px=1)
 							right = False
 						else: 
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(0, 0, 300, 300 + offset), 2, enter, px=-1)				
+								(0, 0, 300, 300 + offset), 2, enter, px=-1)	
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(0, 0, 400, 300 + offset), 1.5, enter, px=-1)
+								(0, 0, 400, 300 + offset), 1.5, enter, px=-1)
 							aliens_entities.add_alien(1, "sprites/enemy3.png", 
-										(0, 0, 500, 300 + offset), 1.75, enter, px=-1)
+								(0, 0, 500, 300 + offset), 1.75, enter, px=-1)
 							right = True
 						offset += 100
 						offset %= 300
@@ -279,15 +291,18 @@ def main():
 				# Initial five spawns
 				if frame_count == 0:
 					aliens_entities.add_alien(1, "sprites/enemy1.png", 
-									( WIDTH / 2, 0, 0, 0), 2, infinity, px=2 * math.pi/3)
+									( WIDTH / 2, 0, 0, 0), 2, infinity, 
+         								px=2 * math.pi/3)
 					aliens_entities.add_alien(1, "sprites/enemy2.png", 
-									( WIDTH / 2, 0, 0, 0), 3, infinity, px= 4 * math.pi/3)
+									( WIDTH / 2, 0, 0, 0), 3, infinity, 
+         								px= 4 * math.pi/3)
 					aliens_entities.add_alien(1, "sprites/enemy3.png", 
 									( WIDTH / 2, 0, 0, 0), 4, infinity, px=0)
 					aliens_entities.add_alien(1, "sprites/enemy3.png", 
 									( WIDTH / 2, 0, 35, 0), 3, cornerguy)
 					aliens_entities.add_alien(1, "sprites/enemy3.png", 
-									( WIDTH / 2, 0, WIDTH - 35, 0), 3, cornerguy)
+									( WIDTH / 2, 0, WIDTH - 35, 0), 
+         								3, cornerguy)
 		
 		
 
@@ -310,9 +325,11 @@ def main():
 					else:
 						mute = True
 						pygame.mixer.music.pause()
-				if event.key == pygame.K_p and ship_entity.health[0].health > 0 and frame_count < FRAMEEND:					
+				if event.key == pygame.K_p and \
+    			 ship_entity.health[0].health > 0 and frame_count < FRAMEEND:
 					pause(clock, rendering_system)	
-				if event.key == pygame.K_r and (frame_count >= FRAMEEND or ship_entity.health[0].health <= 0):
+				if event.key == pygame.K_r and \
+    			 (frame_count >= FRAMEEND or ship_entity.health[0].health <= 0):
 					return True
 		
 		#SYSTEM
@@ -324,7 +341,8 @@ def main():
 		threads.append(threading.Thread(target=ship_system.moveShipBullets,
 							args = (dt, shipBullet_entity)))
 		threads.append(threading.Thread(target=aliens_system.moveAliens,
-							args = (dt, aliens_entities, alienBullet_entity, frame_count)))
+							args = (dt, aliens_entities, alienBullet_entity, 
+               							frame_count)))
 		threads.append(threading.Thread(target=aliens_system.moveAlienBullets,
 							args = (dt, alienBullet_entity)))
 		threads.append(threading.Thread(target=explosion_system.update,
@@ -409,15 +427,16 @@ def main():
 		# If player has won
 		if frame_count >= FRAMEEND and health > 0:
 			points += 2000 + (health * 500)
+			bps = health * 500 #Bonus points
 			rendering_system.renderText(f"UNIVERSE SAVED", 
  									(255, 255, 0), WIDTH, HEIGHT * 0.9)
 			rendering_system.renderText(f"+2000 pts - Saved Universe", 
  									(255, 255, 0), WIDTH, HEIGHT)
 			if health == 1:
-				rendering_system.renderText(f"+{health * 500} pts - 1 life left", 
+				rendering_system.renderText(f"+{bps} pts - 1 life left", 
  									(255, 255, 0), WIDTH, HEIGHT * 1.1)
 			else:
-				rendering_system.renderText(f"+{health * 500} pts - {health} lives left", 
+				rendering_system.renderText(f"+{bps} pts - {health} lives left",
  									(255, 255, 0), WIDTH, HEIGHT * 1.1)
 			rendering_system.renderText(f"Points: {points}", 
  									(255, 255, 255), WIDTH, HEIGHT * 1.2)
@@ -432,7 +451,8 @@ def main():
 		# flip() the display to put your work on screen
 		pygame.display.flip()
 			
-		# limits FPS to 60 and dt is delta time in seconds since last frame (~.0167 s)
+		# limits FPS to 60 and dt is delta time in seconds since last frame 
+  		# (~.0167 s)
 		dt = clock.tick(60) / 1000
 
 	return False
