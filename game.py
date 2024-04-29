@@ -11,9 +11,14 @@ import s_explosion
 import s_stars
 import threading
 import math
+import argparse
 
-WIDTH = 768		# Screen width
-HEIGHT = 1024	# Screen height
+parser = argparse.ArgumentParser(description="Set game parameters.")
+parser.add_argument('--height', type=int, default=1024, help='Screen height')
+args = parser.parse_args()
+WIDTH = 768     # Screen width
+HEIGHT = args.height    # Screen height
+
 SHIPBASEHEALTH = 3
 SHIP_SPRITE = "sprites/ship.png"
 SOUNDTRACK = "sounds/soundtrack8bit.mp3"
