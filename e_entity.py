@@ -1,7 +1,4 @@
-import pygame
 import c_components as comp
-import game
-import math
 
 class Ship:
 	"""
@@ -197,5 +194,3 @@ class Star:
 		self.size.append(comp.Size(size[0], size[1]))
 		self.movement.append(comp.Movement(movement[0], movement[1], 
 										   movement[2], movement[3]))
-		
-		
